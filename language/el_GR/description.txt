@@ -1,1 +1,1 @@
-Ενσωμάτωση OpenStreetMap με το Piwigo
+Ενσωμάτωση Swisstopo με το Piwigo

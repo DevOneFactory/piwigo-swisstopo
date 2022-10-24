@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   admin_tag.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   Create tags from reverse address
 *
 * Created   :   06.07.2015
@@ -30,7 +30,7 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 check_status(ACCESS_ADMINISTRATOR);
 
 // Setup plugin Language
-load_language('plugin.lang', OSM_PATH);
+load_language('plugin.lang', SWISSTOPO_PATH);
 
 // Fetch the template.
 global $template, $conf, $lang;
@@ -41,15 +41,15 @@ $sync_options = array(
 	'simulate'		=> true,
 	'cat_id'		=> 0,
 	'subcats_included'	=> true,
-	'osm_tag_group'		=> 'location',
-	'osm_tag_address_suburb' => false,
-	'osm_tag_address_city_district' => false,
-	'osm_tag_address_city' => true,
-	'osm_tag_address_county' => false,
-	'osm_tag_address_state' => false,
-	'osm_tag_address_country' => false,
-	'osm_tag_address_postcode' => false,
-	'osm_tag_address_country_code' => false,
+	'swisstopo_tag_group'		=> 'location',
+	'swisstopo_tag_address_suburb' => false,
+	'swisstopo_tag_address_city_district' => false,
+	'swisstopo_tag_address_city' => true,
+	'swisstopo_tag_address_county' => false,
+	'swisstopo_tag_address_state' => false,
+	'swisstopo_tag_address_country' => false,
+	'swisstopo_tag_address_postcode' => false,
+	'swisstopo_tag_address_country_code' => false,
 );
 
 // Check if tag_groups is present and active
@@ -60,7 +60,7 @@ if ($tag_groups != 1) {
 }
 
 // On submit
-if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
+if ( $tag_groups == 1 and isset($_POST['swisstopo_tag_submit']) )
 {
 	// Override default value from the form
 	$tmp = preg_split("/_/",$_POST['language']);
@@ -69,15 +69,15 @@ if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
 		'simulate' => isset($_POST['simulate']),
 		'cat_id' => isset($_POST['cat_id']) ? (int)$_POST['cat_id'] : 0,
 		'subcats_included' => isset($_POST['subcats_included']),
-		'osm_tag_group'	=> $_POST['osm_taggroup'],
-		'osm_tag_address_suburb' => isset($_POST['osm_tag_address_suburb']),
-		'osm_tag_address_city_district' => isset($_POST['osm_tag_address_city_district']),
-		'osm_tag_address_city' => isset($_POST['osm_tag_address_city']),
-		'osm_tag_address_county' => isset($_POST['osm_tag_address_county']),
-		'osm_tag_address_state' => isset($_POST['osm_tag_address_state']),
-		'osm_tag_address_country' => isset($_POST['osm_tag_address_country']),
-		'osm_tag_address_postcode' => isset($_POST['osm_tag_address_postcode']),
-		'osm_tag_address_country_code' => isset($_POST['osm_tag_address_country_code']),
+		'swisstopo_tag_group'	=> $_POST['swisstopo_taggroup'],
+		'swisstopo_tag_address_suburb' => isset($_POST['swisstopo_tag_address_suburb']),
+		'swisstopo_tag_address_city_district' => isset($_POST['swisstopo_tag_address_city_district']),
+		'swisstopo_tag_address_city' => isset($_POST['swisstopo_tag_address_city']),
+		'swisstopo_tag_address_county' => isset($_POST['swisstopo_tag_address_county']),
+		'swisstopo_tag_address_state' => isset($_POST['swisstopo_tag_address_state']),
+		'swisstopo_tag_address_country' => isset($_POST['swisstopo_tag_address_country']),
+		'swisstopo_tag_address_postcode' => isset($_POST['swisstopo_tag_address_postcode']),
+		'swisstopo_tag_address_country_code' => isset($_POST['swisstopo_tag_address_country_code']),
 		'language' => $tmp[0],
 	);
 
@@ -111,15 +111,15 @@ if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
 	foreach ($images as $image)
 	{
 		// Fech reverse location from API
-		// http://wiki.openstreetmap.org/wiki/Nominatim
-		// https://nominatim.openstreetmap.org/reverse?format=xml&lat=51.082333&lon=10.366229&zoom=12
+		// http://wiki.swisstopo.org/wiki/Nominatim
+		// https://nominatim.swisstopo.org/reverse?format=xml&lat=51.082333&lon=10.366229&zoom=12
 		// https://open.mapquestapi.com/nominatim/v1/reverse.php?format=xml&lat=48.858366666667&lon=2.2942166666667&zoom=12
-		//$osm_url = "https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&zoom=12&lat=". $image['latitude'] ."&lon=". $image['longitude'];
+		//$swisstopo_url = "https://nominatim.swisstopo.org/reverse?format=json&addressdetails=1&zoom=12&lat=". $image['latitude'] ."&lon=". $image['longitude'];
 		//  As of Sept 2015 require a API KEY
-		//$osm_url = "https://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&addressdetails=1&zoom=12&lat=". $image['latitude'] ."&lon=". $image['longitude'];
-		//$osm_url = "http://localhost:8443/api/". $image['latitude'] ."/". $image['longitude'];
-		$osm_url = "https://nominatim-xbgmsharp.rhcloud.com/api/". $image['latitude'] ."/". $image['longitude'] ."/". $sync_options['language'];
-		//print $osm_url ."<br/>";
+		//$swisstopo_url = "https://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&addressdetails=1&zoom=12&lat=". $image['latitude'] ."&lon=". $image['longitude'];
+		//$swisstopo_url = "http://localhost:8443/api/". $image['latitude'] ."/". $image['longitude'];
+		$swisstopo_url = "https://nominatim-xbgmsharp.rhcloud.com/api/". $image['latitude'] ."/". $image['longitude'] ."/". $sync_options['language'];
+		//print $swisstopo_url ."<br/>";
 
 		// Ensure we do have PHP curl install
 		// Or should fallback to fopen
@@ -127,11 +127,11 @@ if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
 		{
 			// Get Curl resource
 			$curl = curl_init();
-			// Set some options http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+			// Set some options http://wiki.swisstopo.org/wiki/Nominatim_usage_policy
 			curl_setopt_array($curl, array(
 				CURLOPT_RETURNTRANSFER => 1,
-				CURLOPT_URL => $osm_url,
-				CURLOPT_USERAGENT => 'Piwigo OSM xbgmsharp@gmail.com',
+				CURLOPT_URL => $swisstopo_url,
+				CURLOPT_USERAGENT => 'Piwigo SWISSTOPO alessandro.rossi@d1f.ch',
 				CURLOPT_REFERER => 'http://piwigo.org/'
 			));
 			// Send the request & save response to $json
@@ -144,11 +144,11 @@ if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
 			$opts = array(
 				'http'=>array(
 					'method'=>"GET",
-					'header'=>"User-Agent: Piwigo OSM xbgmsharp@gmail.com\r\n"
+					'header'=>"User-Agent: Piwigo SWISSTOPO alessandro.rossi@d1f.ch\r\n"
 					)
 			);
 			$context = stream_context_create($opts);
-			if (false !== ($json = @file_get_contents($osm_url, flase, $context))) {
+			if (false !== ($json = @file_get_contents($swisstopo_url, false, $context))) {
  				// all good
 				//return $json;
 			} else {
@@ -173,28 +173,28 @@ if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
 			//print_r($response['address']);
 			//print_r($sync_options);
 			$tag_names = array();
-			if (isset($response['address']['suburb']) and $sync_options['osm_tag_address_suburb']) {
+			if (isset($response['address']['suburb']) and $sync_options['swisstopo_tag_address_suburb']) {
 				array_push( $tag_names, $response['address']['suburb'] );
 			}
-			if (isset($response['address']['city_district']) and $sync_options['osm_tag_address_city_district']) {
+			if (isset($response['address']['city_district']) and $sync_options['swisstopo_tag_address_city_district']) {
 				array_push( $tag_names, $response['address']['city_district'] );
 			}
-			if (isset($response['address']['city']) and $sync_options['osm_tag_address_city']) {
+			if (isset($response['address']['city']) and $sync_options['swisstopo_tag_address_city']) {
 				array_push( $tag_names, $response['address']['city'] );
 			}
-			if (isset($response['address']['county']) and $sync_options['osm_tag_address_county']) {
+			if (isset($response['address']['county']) and $sync_options['swisstopo_tag_address_county']) {
 				array_push( $tag_names, $response['address']['county'] );
 			}
-			if (isset($response['address']['state']) and $sync_options['osm_tag_address_state']) {
+			if (isset($response['address']['state']) and $sync_options['swisstopo_tag_address_state']) {
 				array_push( $tag_names, $response['address']['state'] );
 			}
-			if (isset($response['address']['country']) and $sync_options['osm_tag_address_country']) {
+			if (isset($response['address']['country']) and $sync_options['swisstopo_tag_address_country']) {
 				array_push( $tag_names, $response['address']['country'] );
 			}
-			if (isset($response['address']['postcode']) and $sync_options['osm_tag_address_postcode']) {
+			if (isset($response['address']['postcode']) and $sync_options['swisstopo_tag_address_postcode']) {
 				array_push( $tag_names, $response['address']['postcode'] );
 			}
-			if (isset($response['address']['country_code']) and $sync_options['osm_tag_address_country_code']) {
+			if (isset($response['address']['country_code']) and $sync_options['swisstopo_tag_address_country_code']) {
 				array_push( $tag_names, $response['address']['country_code'] );
 			}
 			//print_r($tag_names);
@@ -206,7 +206,7 @@ if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
 					$tag_ids = array();
 					foreach ($tag_names as $tag_name)
 					{
-						array_push( $tag_ids, tag_id_from_tag_name($sync_options['osm_tag_group'].":".$tag_name) );
+						array_push( $tag_ids, tag_id_from_tag_name($sync_options['swisstopo_tag_group'].":".$tag_name) );
 					}
 					/* Assign tags to image */
 					//print_r($tag_ids);
@@ -216,11 +216,11 @@ if ( $tag_groups == 1 and isset($_POST['osm_tag_submit']) )
 					}
 				}
 				$datas[] = $image['id'];
-				$infos[] = "Set tags '". osm_pprint_r($tag_names) ."' for ". $image['name'];
+				$infos[] = "Set tags '". swisstopo_pprint_r($tag_names) ."' for ". $image['name'];
 			}
 			else
 			{
-				$warnings = "No valid tags for ". $image['name'] . " available tag: ". osm_pprint_r(array_keys($response['address']));
+				$warnings = "No valid tags for ". $image['name'] . " available tag: ". swisstopo_pprint_r(array_keys($response['address']));
 			}
 		}
 		//die("Done one image");
@@ -257,7 +257,7 @@ $template->assign(
 	array(
 		'SUBCATS_INCLUDED_CHECKED' 	=> $sync_options['subcats_included'] ? 'checked="checked"' : '',
 		'NB_GEOTAGGED' 			=> $nb_geotagged,
-		'OSM_PATH'			=> OSM_PATH,
+		'SWISSTOPO_PATH'			=> SWISSTOPO_PATH,
 		'sync_options'			=> $sync_options,
 		'language_options' 		=> get_languages(),
 		'language_selected'		=> get_default_language(),

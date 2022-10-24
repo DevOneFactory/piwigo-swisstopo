@@ -1,1 +1,1 @@
-OpenStreetMap-integration för Piwigo
+Swisstopo-integration för Piwigo

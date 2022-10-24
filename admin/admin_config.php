@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   admin_config.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   Install / Uninstall method
 *
 * Created   :   28.05.2013
@@ -30,23 +30,14 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 check_status(ACCESS_ADMINISTRATOR);
 
 // Setup plugin Language
-load_language('plugin.lang', OSM_PATH);
+load_language('plugin.lang', SWISSTOPO_PATH);
 
 // Fetch the template.
 global $template, $conf, $lang;
 
 // Available baselayer
 $available_baselayer = array(
-    'mapnik'        => 'OpenStreetMap Mapnik',
-    'blackandwhite' => 'OpenStreetMap BlackAndWhite',
-    'mapnikfr'      => 'OpenStreetMap FR',
-    'mapnikde'      => 'OpenStreetMap DE',
-    'mapnikhot'     => 'OpenStreetMap HOT',
-    'mapquest'      => 'MapQuestOpen',
-    'mapquestaerial'=> 'MapQuestOpen Aerial',
-    'toner'         => 'Stamen Toner',
-    'custom'        => 'Own tile (custom style)',
-    'esri'          => 'Esri.WorldImagery',
+    'swisstopo'        => 'Swisstopo',
 );
 
 // Available zoom value
@@ -121,21 +112,21 @@ $available_popup = array(
 
 // Available layout value
 $available_layout = array(
-    '1' => 'osm-map.tpl',
-    '2' => 'osm-map2.tpl',
-    '3' => 'osm-map3.tpl',
-//    '4' => 'osm-map4.tpl',
+    '1' => 'swisstopo-map.tpl',
+    '2' => 'swisstopo-map2.tpl',
+    '3' => 'swisstopo-map3.tpl',
+//    '4' => 'swisstopo-map4.tpl',
 );
 
 $query = 'SELECT COUNT(*) FROM '.IMAGES_TABLE.' WHERE `latitude` IS NOT NULL and `longitude` IS NOT NULL ';
 list($nb_geotagged) = pwg_db_fetch_array( pwg_query($query) );
 
 // Update conf if submitted in admin site
-if (isset($_POST['submit']) && !empty($_POST['osm_height']))
+if (isset($_POST['submit']) && !empty($_POST['swisstopo_height']))
 {
 	// Check the center GPS position is valid
-        $osm_left_center = (isset($_POST['osm_left_center']) and strlen($_POST['osm_left_center']) != 0) ? $_POST['osm_left_center'] : '0,0';
-        $center_arr = explode(',', $osm_left_center);
+        $swisstopo_left_center = (isset($_POST['swisstopo_left_center']) and strlen($_POST['swisstopo_left_center']) != 0) ? $_POST['swisstopo_left_center'] : '0,0';
+        $center_arr = explode(',', $swisstopo_left_center);
         //print_r($center_arr);
         $latitude = $center_arr[0];
         $longitude = $center_arr[1];
@@ -148,71 +139,71 @@ if (isset($_POST['submit']) && !empty($_POST['osm_height']))
                 array_push($page['warnings'], l10n('The specify center longitude (-180=W to 180=E) is not valid'));
 
 	// On post admin form
-	$conf['osm_conf'] = array(
+	$conf['swisstopo_conf'] = array(
 	'right_panel' => array(
-            'enabled'    => get_boolean($_POST['osm_right_panel']),
-            'add_before' => $_POST['osm_add_before'],
-            'height'     => $_POST['osm_height'],
-            'zoom'       => $_POST['osm_zoom'],
-            'link'       => $_POST['osm_right_link'],
-            'linkcss'    => $_POST['osm_right_linkcss'],
-            'showosm'    => get_boolean($_POST['osm_showosm']),
+            'enabled'    => get_boolean($_POST['swisstopo_right_panel']),
+            'add_before' => $_POST['swisstopo_add_before'],
+            'height'     => $_POST['swisstopo_height'],
+            'zoom'       => $_POST['swisstopo_zoom'],
+            'link'       => $_POST['swisstopo_right_link'],
+            'linkcss'    => $_POST['swisstopo_right_linkcss'],
+            'showswisstopo'    => get_boolean($_POST['swisstopo_showswisstopo']),
 			),
 	'left_menu' => array(
-            'enabled'           => get_boolean($_POST['osm_left_menu']),
-            'link'              => $_POST['osm_left_link'],
-            'popup'             => $_POST['osm_left_popup'],
-            'popupinfo_name'    => isset($_POST['osm_left_popupinfo_name']),
-            'popupinfo_img'     => isset($_POST['osm_left_popupinfo_img']),
-            'popupinfo_link'    => isset($_POST['osm_left_popupinfo_link']),
-            'popupinfo_comment' => isset($_POST['osm_left_popupinfo_comment']),
-            'popupinfo_author'  => isset($_POST['osm_left_popupinfo_author']),
-            'zoom'              => $_POST['osm_left_zoom'],
-            'center'            => $osm_left_center,
-            'autocenter'        => get_boolean($_POST['osm_left_autocenter']),
-            'layout'            => $_POST['osm_left_layout'],
+            'enabled'           => get_boolean($_POST['swisstopo_left_menu']),
+            'link'              => $_POST['swisstopo_left_link'],
+            'popup'             => $_POST['swisstopo_left_popup'],
+            'popupinfo_name'    => isset($_POST['swisstopo_left_popupinfo_name']),
+            'popupinfo_img'     => isset($_POST['swisstopo_left_popupinfo_img']),
+            'popupinfo_link'    => isset($_POST['swisstopo_left_popupinfo_link']),
+            'popupinfo_comment' => isset($_POST['swisstopo_left_popupinfo_comment']),
+            'popupinfo_author'  => isset($_POST['swisstopo_left_popupinfo_author']),
+            'zoom'              => $_POST['swisstopo_left_zoom'],
+            'center'            => $swisstopo_left_center,
+            'autocenter'        => get_boolean($_POST['swisstopo_left_autocenter']),
+            'layout'            => $_POST['swisstopo_left_layout'],
 			),
         'category_description' => array(
-            'enabled' => get_boolean($_POST['osm_category_description']),
-            'height'  => $_POST['osm_cat_height'],
-            'width'   => $_POST['osm_cat_width'],
-            'index'   => $_POST['osm_cat_index'],
+            'enabled' => get_boolean($_POST['swisstopo_category_description']),
+            'height'  => $_POST['swisstopo_cat_height'],
+            'width'   => $_POST['swisstopo_cat_width'],
+            'index'   => $_POST['swisstopo_cat_index'],
             ),
 	'main_menu' => array(
-            'enabled' => get_boolean($_POST['osm_main_menu']),
-            'height'  => $_POST['osm_menu_height'],
+            'enabled' => get_boolean($_POST['swisstopo_main_menu']),
+            'height'  => $_POST['swisstopo_menu_height'],
             ),
         'gpx' => array(
-            'height' => $_POST['osm_gpx_height'],
-            'width'  => $_POST['osm_gpx_width'],
+            'height' => $_POST['swisstopo_gpx_height'],
+            'width'  => $_POST['swisstopo_gpx_width'],
             ),
         'batch' => array(
-            'global_height' => $_POST['osm_batch_global_height'],
-            'unit_height'  => $_POST['osm_batch_unit_height'],
+            'global_height' => $_POST['swisstopo_batch_global_height'],
+            'unit_height'  => $_POST['swisstopo_batch_unit_height'],
             ),
 	'map' => array(
-            'baselayer'          => $_POST['osm_baselayer'],
-            'custombaselayer'    => $_POST['osm_custombaselayer'],
-            'custombaselayerurl' => $_POST['osm_custombaselayerurl'],
-            'noworldwarp'        => get_boolean($_POST['osm_noworldwarp']),
-            'attrleaflet'        => get_boolean($_POST['osm_attrleaflet']),
-            'attrimagery'        => get_boolean($_POST['osm_attrimagery']),
-            'attrplugin'         => get_boolean($_POST['osm_attrplugin']),
-            'mapquestapi'        => $_POST['osm_mapquestapi'],
+            'baselayer'          => $_POST['swisstopo_baselayer'],
+            'custombaselayer'    => $_POST['swisstopo_custombaselayer'],
+            'custombaselayerurl' => $_POST['swisstopo_custombaselayerurl'],
+            'noworldwarp'        => get_boolean($_POST['swisstopo_noworldwarp']),
+            'attrleaflet'        => get_boolean($_POST['swisstopo_attrleaflet']),
+            'attrimagery'        => get_boolean($_POST['swisstopo_attrimagery']),
+            'attrplugin'         => get_boolean($_POST['swisstopo_attrplugin']),
+            'mapquestapi'        => $_POST['swisstopo_mapquestapi'],
             ),
 	'pin' => array(
-            'pin'            => $_POST['osm_pin'],
-            'pinpath'        => $_POST['osm_pinpath'],
-            'pinsize'        => $_POST['osm_pinsize'],
-            'pinshadowpath'  => $_POST['osm_pinshadowpath'],
-            'pinshadowsize'  => $_POST['osm_pinshadowsize'],
-            'pinoffset'      => $_POST['osm_pinoffset'],
-            'pinpopupoffset' => $_POST['osm_pinpopupoffset'],
+            'pin'            => $_POST['swisstopo_pin'],
+            'pinpath'        => $_POST['swisstopo_pinpath'],
+            'pinsize'        => $_POST['swisstopo_pinsize'],
+            'pinshadowpath'  => $_POST['swisstopo_pinshadowpath'],
+            'pinshadowsize'  => $_POST['swisstopo_pinshadowsize'],
+            'pinoffset'      => $_POST['swisstopo_pinoffset'],
+            'pinpopupoffset' => $_POST['swisstopo_pinpopupoffset'],
 	    ),
 	);
 
     // Update config to DB
-    conf_update_param('osm_conf', serialize($conf['osm_conf']));
+    conf_update_param('swisstopo_conf', serialize($conf['swisstopo_conf']));
 
     // the prefilter changes, we must delete compiled templatess
     $template->delete_compiled_templates();
@@ -220,7 +211,7 @@ if (isset($_POST['submit']) && !empty($_POST['osm_height']))
 }
 
 // send value to template
-$template->assign($conf['osm_conf']);
+$template->assign($conf['swisstopo_conf']);
 $template->assign(
     array(
         'AVAILABLE_ADD_BEFORE' => $available_add_before,
@@ -231,7 +222,7 @@ $template->assign(
         'AVAILABLE_POPUP'      => $available_popup,
         'AVAILABLE_LAYOUT'     => $available_layout,
         'NB_GEOTAGGED'         => $nb_geotagged,
-        'OSM_PATH'             => OSM_PATH,
+        'SWISSTOPO_PATH'             => SWISSTOPO_PATH,
         'GLOBAL_MODE'          => l10n('global mode'),
         'SINGLE_MODE'          => l10n('unit mode'),
     )

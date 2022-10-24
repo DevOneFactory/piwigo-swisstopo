@@ -1,8 +1,8 @@
 <?php
 /***********************************************
 * File      :   gpx.inc.php
-* Project   :   piwigo-openstreetmap
-* Descr     :   Display an OSM map with elevation on GPX item
+* Project   :   piwigo_swisstopo
+* Descr     :   Display an SWISSTOPO map with elevation on GPX item
 *
 * Created   :   01.11.2014
 *
@@ -29,8 +29,8 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 array_push($conf['file_ext'], 'gpx');
 
 // Hook on to an event to display videos as standard images
-add_event_handler('render_element_content', 'osm_render_media', EVENT_HANDLER_PRIORITY_NEUTRAL, 2);
-function osm_render_media($content, $picture)
+add_event_handler('render_element_content', 'swisstopo_render_media', EVENT_HANDLER_PRIORITY_NEUTRAL, 2);
+function swisstopo_render_media($content, $picture)
 {
 	global $template, $picture, $conf;
 
@@ -49,8 +49,8 @@ function osm_render_media($content, $picture)
 	}
 
 	$filename = embellish_url(get_gallery_home_url() . $picture['current']['element_url']);
-	$height = isset($conf['osm_conf']['gpx']['height']) ? $conf['osm_conf']['gpx']['height'] : '500';
-	$width = isset($conf['osm_conf']['gpx']['width']) ? $conf['osm_conf']['gpx']['width'] : '320';
+	$height = isset($conf['swisstopo_conf']['gpx']['height']) ? $conf['swisstopo_conf']['gpx']['height'] : '500';
+	$width = isset($conf['swisstopo_conf']['gpx']['width']) ? $conf['swisstopo_conf']['gpx']['width'] : '320';
 
 	$local_conf = array();
 	$local_conf['contextmenu'] = 'false';
@@ -64,11 +64,11 @@ function osm_render_media($content, $picture)
 
 	$js_data = array(array(null, null, null, null, null, null, null, null));
 
-	$js = osm_get_js($conf, $local_conf, $js_data);
+	$js = swisstopo_get_js($conf, $local_conf, $js_data);
 
 	// Select the template
 	$template->set_filenames(
-            array('osm_content' => dirname(__FILE__)."/template/osm-gpx.tpl")
+            array('swisstopo_content' => dirname(__FILE__)."/template/swisstopo-gpx.tpl")
 	);
 
 	// Assign the template variables
@@ -77,19 +77,19 @@ function osm_render_media($content, $picture)
 			'HEIGHT'   => $height,
 			'WIDTH'    => $width,
 			'FILENAME' => $filename,
-			'OSM_PATH' => embellish_url(get_gallery_home_url().OSM_PATH),
-			'OSMGPX'   => $js,
+			'SWISSTOPO_PATH' => embellish_url(get_gallery_home_url().SWISSTOPO_PATH),
+			'SWISSTOPOGPX'   => $js,
             )
 	);
 
 	// Return the rendered html
-	$osm_content = $template->parse('osm_content', true);
-	return $osm_content;
+	$swisstopo_content = $template->parse('swisstopo_content', true);
+	return $swisstopo_content;
 }
 
 // Hook to display a fallback thumbnail if not defined
-add_event_handler('get_mimetype_location', 'osm_get_mimetype_icon');
-function osm_get_mimetype_icon($location, $element_info)
+add_event_handler('get_mimetype_location', 'swisstopo_get_mimetype_icon');
+function swisstopo_get_mimetype_icon($location, $element_info)
 {
 	if ($element_info == 'gpx')
 	{

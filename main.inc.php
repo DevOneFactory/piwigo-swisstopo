@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: OpenStreetMap
+Plugin Name: SwissTopo
 Version: auto
-Description: OpenStreetMap integration for piwigo
-Plugin URI: http://piwigo.org/ext/extension_view.php?eid=701
-Author: xbmgsharp
-Author URI: https://github.com/xbgmsharp/piwigo-openstreetmap
+Description: SwissTopo integration for piwigo
+Plugin URI: auto
+Author: Alessandro Rossi
+Author URI: https://dayonefactory.ch
 Has Settings: webmaster
 */
 
@@ -13,12 +13,11 @@ Has Settings: webmaster
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 // Define the path to our plugin.
-define('OSM_PATH', PHPWG_PLUGINS_PATH . basename(dirname(__FILE__)).'/');
-
+define('SWISSTOPO_PATH', PHPWG_PLUGINS_PATH . basename(dirname(__FILE__)).'/');
 global $conf;
 
 // Prepare configuration
-$conf['osm_conf'] = safe_unserialize($conf['osm_conf']);
+$conf['swisstopo_conf'] = safe_unserialize($conf['swisstopo_conf']);
 
 // GPX support
 include_once(dirname(__FILE__).'/gpx.inc.php');
@@ -35,26 +34,26 @@ elseif (script_basename() == 'index')
 }
 
 // Do we have to show a link on the left menu
-if ($conf['osm_conf']['left_menu']['enabled'])
+if ($conf['swisstopo_conf']['left_menu']['enabled'])
 {
 	// Hook to add link on the left menu
-	add_event_handler('blockmanager_apply', 'osm_blockmanager_apply');
+	add_event_handler('blockmanager_apply', 'swisstopo_blockmanager_apply');
 }
 
 // Hook to add worldmap link on the album/category thumbnails
-add_event_handler('loc_begin_index_category_thumbnails', 'osm_index_cat_thumbs_displayed');
+add_event_handler('loc_begin_index_category_thumbnails', 'swisstopo_index_cat_thumbs_displayed');
 
 // Hook to add worldmap link on the index thumbnails page
-add_event_handler('loc_end_index', 'osm_end_index' );
+add_event_handler('loc_end_index', 'swisstopo_end_index' );
 
-function osm_index_cat_thumbs_displayed()
+function swisstopo_index_cat_thumbs_displayed()
 {
 	global $page;
-	$page['osm_cat_thumbs_displayed'] = true;
+	$page['swisstopo_cat_thumbs_displayed'] = true;
 }
 
-define('OSM_ACTION_MODEL', '<a href="%s" title="%s" rel="nofollow" class="pwg-state-default pwg-button"%s><span class="pwg-icon pwg-icon-globe">&nbsp;</span><span class="pwg-button-text">%s</span></a>');
-function osm_end_index()
+define('SWISSTOPO_ACTION_MODEL', '<a href="%s" title="%s" rel="nofollow" class="pwg-state-default pwg-button"%s><span class="pwg-icon pwg-icon-globe">&nbsp;</span><span class="pwg-button-text">%s</span></a>');
+function swisstopo_end_index()
 {
 	global $page, $filter, $template;
 
@@ -63,7 +62,7 @@ function osm_end_index()
 
 	if ( 'categories' == @$page['section'])
 	{ // flat or no flat ; has subcats or not;  ?
-		if ( ! @$page['osm_cat_thumbs_displayed'] and empty($page['items']) )
+		if ( ! @$page['swisstopo_cat_thumbs_displayed'] and empty($page['items']) )
 			return;
 	}
 	else
@@ -80,40 +79,40 @@ function osm_end_index()
 
 	if ( !empty($page['items']) )
 	{
-		if (!@$page['osm_items_have_latlon'] and ! osm_items_have_latlon( $page['items'] ) )
+		if (!@$page['swisstopo_items_have_latlon'] and ! swisstopo_items_have_latlon( $page['items'] ) )
 			return;
 	}
-	osm_load_language();
+	swisstopo_load_language();
 
 	global $conf;
-	$layout = isset($conf['osm_conf']['left_menu']['layout']) ? $conf['osm_conf']['left_menu']['layout'] : '2';
-	$map_url = osm_duplicate_map_index_url( array(), array('start') ) ."&v=".$layout;
+	$layout = isset($conf['swisstopo_conf']['left_menu']['layout']) ? $conf['swisstopo_conf']['left_menu']['layout'] : '2';
+	$map_url = swisstopo_duplicate_map_index_url( array(), array('start') ) ."&v=".$layout;
 	$link_title = sprintf( l10n('DISPLAY_ON_MAP'), strip_tags($page['title']) );
-	$template->concat( 'PLUGIN_INDEX_ACTIONS' , "\n<li>".sprintf(OSM_ACTION_MODEL,
+	$template->concat( 'PLUGIN_INDEX_ACTIONS' , "\n<li>".sprintf(SWISSTOPO_ACTION_MODEL,
 		$map_url, $link_title, '', 'map', l10n('MAP')
 		).'</li>');
 }
 
 // If admin do the init
 if (defined('IN_ADMIN')) {
-	include_once(OSM_PATH.'/admin/admin_boot.php');
+	include_once(SWISSTOPO_PATH.'/admin/admin_boot.php');
 }
 
 
-function osm_blockmanager_apply($mb_arr)
+function swisstopo_blockmanager_apply($mb_arr)
 {
 	if ($mb_arr[0]->get_id() != 'menubar' )
 		return;
 	if ( ($block=$mb_arr[0]->get_block('mbMenu')) != null )
 	{
 		include_once( dirname(__FILE__) .'/include/functions.php');
-		load_language('plugin.lang', OSM_PATH);
+		load_language('plugin.lang', SWISSTOPO_PATH);
 		global $conf;
-		$linkname = isset($conf['osm_conf']['left_menu']['link']) ? $conf['osm_conf']['left_menu']['link'] : l10n('OSWorldMap');
-		$layout = isset($conf['osm_conf']['left_menu']['layout']) ? $conf['osm_conf']['left_menu']['layout'] : '2';
+		$linkname = isset($conf['swisstopo_conf']['left_menu']['link']) ? $conf['swisstopo_conf']['left_menu']['link'] : l10n('OSWorldMap');
+		$layout = isset($conf['swisstopo_conf']['left_menu']['layout']) ? $conf['swisstopo_conf']['left_menu']['layout'] : '2';
 		$link_title = sprintf( l10n('DISPLAY_ON_MAP'), strip_tags($conf['gallery_title']) );
-		$block->data['osm'] = array(
-			'URL' => osm_make_map_index_url( array('section'=>'categories') ) ."&v=".$layout,
+		$block->data['swisstopo'] = array(
+			'URL' => swisstopo_make_map_index_url( array('section'=>'categories') ) ."&v=".$layout,
 			'TITLE' => $link_title,
 			'NAME' => $linkname,
 			'REL'=> 'rel=nofollow'
@@ -121,7 +120,7 @@ function osm_blockmanager_apply($mb_arr)
 	}
 }
 
-function osm_strbool($value)
+function swisstopo_strbool($value)
 {
 	return $value ? 'true' : 'false';
 }

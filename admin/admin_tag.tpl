@@ -1,8 +1,8 @@
 {html_head}
-<link rel="stylesheet" href="{$OSM_PATH}fontello/css/osm.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}fontello/css/swisstopo.css" />
 <style>
   {literal}
-    .osm_layout {
+    .swisstopo_layout {
       text-align: left;
       border: 2px solid rgb(221, 221, 221);
       padding: 1em;
@@ -14,9 +14,9 @@
 
 Create tags from the address base on the GPS (latitude, longitude) metadata information. 
 <br/><br/>
-Refer to the <a href="https://github.com/xbgmsharp/piwigo-openstreetmap/wiki" target="_blanck">plugin documentation</a> for additional information. Create an <a href="https://github.com/xbgmsharp/piwigo-openstreetmap/issues" target="_blanck">issue</a> for support, or feedback, or feature request.
+Refer to the <a href="https://github.com/xbgmsharp/piwigo_swisstopo/wiki" target="_blanck">plugin documentation</a> for additional information. Create an <a href="https://github.com/xbgmsharp/piwigo_swisstopo/issues" target="_blanck">issue</a> for support, or feedback, or feature request.
 
-<div class="osm_layout">
+<div class="swisstopo_layout">
   <legend>{'Statistics'|@translate}</legend>
   <ul>
     <li class="update_summary_new">{$NB_GEOTAGGED} geotagged items in your gallery</li>
@@ -24,7 +24,7 @@ Refer to the <a href="https://github.com/xbgmsharp/piwigo-openstreetmap/wiki" ta
 </div>
 
 {if isset($metadata_result)}
-<div class="osm_layout">
+<div class="swisstopo_layout">
   <legend>Synchronization results</legend>
   <ul>
 	<li>{$metadata_result.NB_ELEMENTS_DONE} {'tags updated in the database'|@translate}</li>
@@ -77,20 +77,20 @@ Refer to the <a href="https://github.com/xbgmsharp/piwigo-openstreetmap/wiki" ta
 		<li>
 			<label>
 				{'Name of the tag group'|@translate}:
-				<input type="text" name="osm_taggroup" value="{$sync_options.osm_tag_group}" placeholder="location" required="" size="30"/>
+				<input type="text" name="swisstopo_taggroup" value="{$sync_options.swisstopo_tag_group}" placeholder="location" required="" size="30"/>
 			</label>
 		</li>
 		<li>
 			<label>{'Use as tag'|@translate} : </label><br/>
 			<div style="padding-left: 25px">
-				<input type="checkbox" name="osm_tag_address_suburb" value="true" {if $sync_options.osm_tag_address_suburb}checked="checked"{/if}/> {'suburb'|@translate}<br />
-				<input type="checkbox" name="osm_tag_address_city_district" value="true" {if $sync_options.osm_tag_address_city_district}checked="checked"{/if}/> {'city_district'|@translate}<br />
-				<input type="checkbox" name="osm_tag_address_city" value="true" {if $sync_options.osm_tag_address_city}checked="checked"{/if}/> {'city'|@translate}<br />
-				<input type="checkbox" name="osm_tag_address_county" value="true" {if $sync_options.osm_tag_address_county}checked="checked"{/if}/> {'county'|@translate}<br />
-				<input type="checkbox" name="osm_tag_address_state" value="true" {if $sync_options.osm_tag_address_state}checked="checked"{/if}/> {'state'|@translate}<br />
-				<input type="checkbox" name="osm_tag_address_country" value="true" {if $sync_options.osm_tag_address_country}checked="checked"{/if}/> {'country'|@translate}<br />
-				<input type="checkbox" name="osm_tag_address_postcode" value="true" {if $sync_options.osm_tag_address_postcode}checked="checked"{/if}/> {'postcode'|@translate}<br />
-				<input type="checkbox" name="osm_tag_address_country_code" value="true" {if $sync_options.osm_tag_address_country_code}checked="checked"{/if}/> {'country_code'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_suburb" value="true" {if $sync_options.swisstopo_tag_address_suburb}checked="checked"{/if}/> {'suburb'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_city_district" value="true" {if $sync_options.swisstopo_tag_address_city_district}checked="checked"{/if}/> {'city_district'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_city" value="true" {if $sync_options.swisstopo_tag_address_city}checked="checked"{/if}/> {'city'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_county" value="true" {if $sync_options.swisstopo_tag_address_county}checked="checked"{/if}/> {'county'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_state" value="true" {if $sync_options.swisstopo_tag_address_state}checked="checked"{/if}/> {'state'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_country" value="true" {if $sync_options.swisstopo_tag_address_country}checked="checked"{/if}/> {'country'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_postcode" value="true" {if $sync_options.swisstopo_tag_address_postcode}checked="checked"{/if}/> {'postcode'|@translate}<br />
+				<input type="checkbox" name="swisstopo_tag_address_country_code" value="true" {if $sync_options.swisstopo_tag_address_country_code}checked="checked"{/if}/> {'country_code'|@translate}<br />
 			</div>
 			<small>{'Create tag using one or multiple value from the address part'|@translate}</small>
 		</li>
@@ -129,6 +129,6 @@ Refer to the <a href="https://github.com/xbgmsharp/piwigo-openstreetmap/wiki" ta
   </fieldset>
 
   <p>
-    <input type="submit" value="{'Submit'|@translate}" name="osm_tag_submit">
+    <input type="submit" value="{'Submit'|@translate}" name="swisstopo_tag_submit">
   </p>
 </form>

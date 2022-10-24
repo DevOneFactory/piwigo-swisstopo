@@ -76,48 +76,48 @@
 	 */
 
 	L.TileLayer.Provider.providers = {
-		OpenStreetMap: {
-			url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		Swisstopo: {
+			url: 'https://{s}.tile.swisstopo.org/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 19,
 				attribution:
-					'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+					'&copy; <a href="https://www.swisstopo.org/copyright">Swisstopo</a> contributors'
 			},
 			variants: {
 				Mapnik: {},
 				DE: {
-					url: 'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
+					url: 'https://{s}.tile.swisstopo.de/tiles/swisstopode/{z}/{x}/{y}.png',
 					options: {
 						maxZoom: 18
 					}
 				},
 				CH: {
-					url: 'https://tile.osm.ch/switzerland/{z}/{x}/{y}.png',
+					url: 'https://tile.swisstopo.ch/switzerland/{z}/{x}/{y}.png',
 					options: {
 						maxZoom: 18,
 						bounds: [[45, 5], [48, 11]]
 					}
 				},
 				France: {
-					url: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+					url: 'https://{s}.tile.swisstopo.fr/swisstopofr/{z}/{x}/{y}.png',
 					options: {
 						maxZoom: 20,
-						attribution: '&copy; OpenStreetMap France | {attribution.OpenStreetMap}'
+						attribution: '&copy; Swisstopo France | {attribution.Swisstopo}'
 					}
 				},
 				HOT: {
-					url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+					url: 'https://{s}.tile.swisstopo.fr/hot/{z}/{x}/{y}.png',
 					options: {
 						attribution:
-							'{attribution.OpenStreetMap}, ' +
-							'Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> ' +
-							'hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+							'{attribution.Swisstopo}, ' +
+							'Tiles style by <a href="https://www.hotswisstopo.org/" target="_blank">Humanitarian Swisstopo Team</a> ' +
+							'hosted by <a href="https://swisstopo.fr/" target="_blank">Swisstopo France</a>'
 					}
 				},
 				BZH: {
-					url: 'https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png',
+					url: 'https://tile.swisstopo.bzh/br/{z}/{x}/{y}.png',
 					options: {
-						attribution: '{attribution.OpenStreetMap}, Tiles courtesy of <a href="http://www.openstreetmap.bzh/" target="_blank">Breton OpenStreetMap Team</a>',
+						attribution: '{attribution.Swisstopo}, Tiles courtesy of <a href="http://www.swisstopo.bzh/" target="_blank">Breton Swisstopo Team</a>',
 						bounds: [[46.2, -5.5], [50, 0.7]]
 					}
 				}
@@ -140,35 +140,35 @@
 			url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 17,
-				attribution: 'Map data: {attribution.OpenStreetMap}, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+				attribution: 'Map data: {attribution.Swisstopo}, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 			}
 		},
 		OpenRailwayMap: {
 			url: 'https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 19,
-				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="https://www.OpenRailwayMap.org">OpenRailwayMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+				attribution: 'Map data: {attribution.Swisstopo} | Map style: &copy; <a href="https://www.OpenRailwayMap.org">OpenRailwayMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 			}
 		},
 		OpenFireMap: {
 			url: 'http://openfiremap.org/hytiles/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 19,
-				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="http://www.openfiremap.org">OpenFireMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+				attribution: 'Map data: {attribution.Swisstopo} | Map style: &copy; <a href="http://www.openfiremap.org">OpenFireMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 			}
 		},
 		SafeCast: {
 			url: 'https://s3.amazonaws.com/te512.safecast.org/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 16,
-				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="https://blog.safecast.org/about/">SafeCast</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+				attribution: 'Map data: {attribution.Swisstopo} | Map style: &copy; <a href="https://blog.safecast.org/about/">SafeCast</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 			}
 		},
 		Stadia: {
 			url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
 			options: {
 				maxZoom: 20,
-				attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+				attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://swisstopo.org">Swisstopo</a> contributors'
 			},
 			variants: {
 				AlidadeSmooth: {
@@ -177,8 +177,8 @@
 				AlidadeSmoothDark: {
 					url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
 				},
-				OSMBright: {
-					url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png'
+				SWISSTOPOBright: {
+					url: 'https://tiles.stadiamaps.com/tiles/swisstopo_bright/{z}/{x}/{y}{r}.png'
 				},
 				Outdoors: {
 					url: 'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png'
@@ -189,7 +189,7 @@
 			url: 'https://{s}.tile.thunderforest.com/{variant}/{z}/{x}/{y}.png?apikey={apikey}',
 			options: {
 				attribution:
-					'&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, {attribution.OpenStreetMap}',
+					'&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, {attribution.Swisstopo}',
 				variant: 'cycle',
 				apikey: '<insert your api key here>',
 				maxZoom: 22
@@ -218,19 +218,19 @@
 				Neighbourhood: 'neighbourhood'
 			}
 		},
-		CyclOSM: {
-			url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
+		CyclSWISSTOPO: {
+			url: 'https://{s}.tile-cyclswisstopo.swisstopo.fr/cyclswisstopo/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 20,
-				attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: {attribution.OpenStreetMap}'
+				attribution: '<a href="https://github.com/cyclswisstopo/cyclswisstopo-cartocss-style/releases" title="CyclSWISSTOPO - Open Bicycle render">CyclSWISSTOPO</a> | Map data: {attribution.Swisstopo}'
 			}
 		},
 		Hydda: {
-			url: 'https://{s}.tile.openstreetmap.se/hydda/{variant}/{z}/{x}/{y}.png',
+			url: 'https://{s}.tile.swisstopo.se/hydda/{variant}/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 20,
 				variant: 'full',
-				attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data {attribution.OpenStreetMap}'
+				attribution: 'Tiles courtesy of <a href="http://swisstopo.se/" target="_blank">Swisstopo Sweden</a> &mdash; Map data {attribution.Swisstopo}'
 			},
 			variants: {
 				Full: 'full',
@@ -243,7 +243,7 @@
 			options: {
 				attribution:
 					'<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> ' +
-					'{attribution.OpenStreetMap}',
+					'{attribution.Swisstopo}',
 				minZoom: 0,
 				maxZoom: 22,
 				subdomains: 'abcd',
@@ -266,7 +266,7 @@
 			options: {
 				attribution:
 					'&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a> ' +
-					'{attribution.OpenStreetMap} ' +
+					'{attribution.Swisstopo} ' +
 					'<a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a>',
 				tileSize: 512,
 				maxZoom: 18,
@@ -279,7 +279,7 @@
 			url: 'https://api.maptiler.com/maps/{variant}/{z}/{x}/{y}{r}.{ext}?key={key}',
 			options: {
 				attribution:
-					'<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+					'<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.swisstopo.org/copyright" target="_blank">&copy; Swisstopo contributors</a>',
 				variant: 'streets',
 				ext: 'png',
 				key: '<insert your MapTiler Cloud API key here>',
@@ -311,7 +311,7 @@
 				attribution:
 					'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ' +
 					'<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; ' +
-					'Map data {attribution.OpenStreetMap}',
+					'Map data {attribution.Swisstopo}',
 				subdomains: 'abcd',
 				minZoom: 0,
 				maxZoom: 20,
@@ -355,17 +355,17 @@
 						maxZoom: 18
 					}
 				},
-				TopOSMRelief: {
+				TopSWISSTOPORelief: {
 					url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/{variant}/{z}/{x}/{y}.{ext}',
 					options: {
-						variant: 'toposm-color-relief',
+						variant: 'topswisstopo-color-relief',
 						ext: 'jpg',
 						bounds: [[22, -132], [51, -56]]
 					}
 				},
-				TopOSMFeatures: {
+				TopSWISSTOPOFeatures: {
 					options: {
-						variant: 'toposm-features',
+						variant: 'topswisstopo-features',
 						bounds: [[22, -132], [51, -56]],
 						opacity: 0.9
 					}
@@ -731,20 +731,20 @@
 				subdomains: 'abcd',
 				bounds: [[47.204642, 15.996093], [49.830896, 22.576904]],
 				attribution:
-					'{attribution.OpenStreetMap}, vizualization CC-By-SA 2.0 <a href="http://freemap.sk">Freemap.sk</a>'
+					'{attribution.Swisstopo}, vizualization CC-By-SA 2.0 <a href="http://freemap.sk">Freemap.sk</a>'
 			}
 		},
 		MtbMap: {
 			url: 'http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png',
 			options: {
 				attribution:
-					'{attribution.OpenStreetMap} &amp; USGS'
+					'{attribution.Swisstopo} &amp; USGS'
 			}
 		},
 		CartoDB: {
 			url: 'https://{s}.basemaps.cartocdn.com/{variant}/{z}/{x}/{y}{r}.png',
 			options: {
-				attribution: '{attribution.OpenStreetMap} &copy; <a href="https://carto.com/attributions">CARTO</a>',
+				attribution: '{attribution.Swisstopo} &copy; <a href="https://carto.com/attributions">CARTO</a>',
 				subdomains: 'abcd',
 				maxZoom: 19,
 				variant: 'light_all'
@@ -766,7 +766,7 @@
 			url: 'https://tiles.wmflabs.org/{variant}/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 19,
-				attribution: '{attribution.OpenStreetMap}',
+				attribution: '{attribution.Swisstopo}',
 				variant: 'hikebike'
 			},
 			variants: {
@@ -1012,7 +1012,7 @@
 			url: 'https://tile.waymarkedtrails.org/{variant}/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 18,
-				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+				attribution: 'Map data: {attribution.Swisstopo} | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 			},
 			variants: {
 				hiking: 'hiking',
@@ -1040,7 +1040,7 @@
 			options: {
 				minZoom: 9,
 				maxZoom: 18,
-				attribution: 'Map data: {attribution.OpenStreetMap} & ODbL, &copy; <a href="https://www.opensnowmap.org/iframes/data.html">www.opensnowmap.org</a> <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+				attribution: 'Map data: {attribution.Swisstopo} & ODbL, &copy; <a href="https://www.opensnowmap.org/iframes/data.html">www.opensnowmap.org</a> <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
 			},
 			variants: {
 				pistes: 'pistes',

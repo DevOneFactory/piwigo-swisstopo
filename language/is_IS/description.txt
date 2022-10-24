@@ -1,1 +1,1 @@
-OpenStreetMap samþætting fyrir Piwigo
+Swisstopo samþætting fyrir Piwigo

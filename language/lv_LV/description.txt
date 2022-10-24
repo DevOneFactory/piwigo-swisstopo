@@ -1,1 +1,1 @@
-OpenStreetMap integrēšana Piwigo
+Swisstopo integrēšana Piwigo

@@ -5,22 +5,22 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta name="robots" content="noindex,nofollow" />
 <title>{$GALLERY_TITLE}</title>
-<link rel="stylesheet" href="{$OSM_PATH}fontello/css/osm.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet-search.min.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/MarkerCluster.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet.contextmenu.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/Control.MiniMap.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/iconLayers.css" />
-<script src="{$OSM_PATH}leaflet/leaflet.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet-search.min.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet.markercluster.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet.contextmenu.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet-omnivore.min.js"></script>
-<script src="{$OSM_PATH}leaflet/Control.MiniMap.js"></script>
-<script src="{$OSM_PATH}leaflet/L.Control.ControlCenter.js"></script>
-<script src="{$OSM_PATH}leaflet/iconLayers.js"></script>
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}fontello/css/swisstopo.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet-search.min.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/MarkerCluster.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet.contextmenu.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/Control.MiniMap.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/iconLayers.css" />
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet-search.min.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.markercluster.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.contextmenu.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet-omnivore.min.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/Control.MiniMap.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/L.Control.ControlCenter.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/iconLayers.js"></script>
 {html_style}
 {literal}
 html, body {
@@ -67,22 +67,22 @@ html, body {
 	<input type="text" value="" style="width: 550px;" onfocus="this.select();" id="textfield"></input>
 </div>
 
-<script type="text/javascript">{$OSMJS}</script>
+<script type="text/javascript">{$SWISSTOPOJS}</script>
 
 <script type="text/javascript">
 {literal}
 
-	/* Load leaflet PWG-OSM ControlCenter Leaflet plugin */
+	/* Load leaflet PWG-SWISSTOPO ControlCenter Leaflet plugin */
 	map.addControl( new L.Control.ControlCenter() );
 
 	/* BEGIN leaflet-MiniMap https://github.com/Norkart/Leaflet-MiniMap */
-	var osm2 = new L.TileLayer(Url, {minZoom: 0, maxZoom: 13, attribution: Attribution});
-	var miniMap = new L.Control.MiniMap(osm2).addTo(map);
+	var swisstopo2 = new L.TileLayer(Url, {minZoom: 0, maxZoom: 13, attribution: Attribution});
+	var miniMap = new L.Control.MiniMap(swisstopo2).addTo(map);
 	/* END leaflet-MiniMap */
 
 	/* BEGIN leaflet-search https://github.com/stefanocudini/leaflet-search */
 	var jsonpurl = 'https://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
-				   '&format=json&osm_type=N&limit=100&addressdetails=0',
+				   '&format=json&swisstopo_type=N&limit=100&addressdetails=0',
 		jsonpName = 'json_callback';
 	//third party jsonp service
 
@@ -155,7 +155,7 @@ html, body {
 
 		/* Update ShowAll link */
 		var root_url = '{/literal}{$MYROOT_URL}{literal}';
-		var myurl = root_url+"osmmap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
+		var myurl = root_url+"swisstopomap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
 		//console.log("ShowAll:"+myurl);
 		window.open(myurl,'_blank');
 	}
@@ -168,7 +168,7 @@ html, body {
 		var centerlng = center.lng;
 
 		var root_url = '{/literal}{$MYROOT_URL}{literal}';
-		var myurl = root_url+"osmmap.php?zoom="+zoom+"&center_lat="+centerlat+"&center_lng="+centerlng;
+		var myurl = root_url+"swisstopomap.php?zoom="+zoom+"&center_lat="+centerlat+"&center_lng="+centerlng;
 		//console.log(myurl);
 		document.getElementById('textfield').value = myurl;
 		$('#dialog').dialog('open');
@@ -188,21 +188,21 @@ html, body {
 		map.zoomOut();
 	}
 
-	map.contextmenu.addItem({text: '{/literal}{$HOME_NAME}{literal}', iconCls: 'osm-home', callback: goHome});
-	map.contextmenu.addItem({text: '{/literal}{$HOME_PREV_NAME}{literal}', iconCls: 'osm-left-big', callback: goBack});
+	map.contextmenu.addItem({text: '{/literal}{$HOME_NAME}{literal}', iconCls: 'swisstopo-home', callback: goHome});
+	map.contextmenu.addItem({text: '{/literal}{$HOME_PREV_NAME}{literal}', iconCls: 'swisstopo-left-big', callback: goBack});
 	map.contextmenu.addItem('-');
-	map.contextmenu.addItem({text: 'Show coordinates', iconCls: 'osm-pin', callback: showCoordinates});
-	map.contextmenu.addItem({text: 'Center map here', iconCls: 'osm-location', callback: centerMap});
+	map.contextmenu.addItem({text: 'Show coordinates', iconCls: 'swisstopo-pin', callback: showCoordinates});
+	map.contextmenu.addItem({text: 'Center map here', iconCls: 'swisstopo-location', callback: centerMap});
 	map.contextmenu.addItem('-');
-	map.contextmenu.addItem({text: 'Show all items', iconCls: 'osm-link-ext', callback: goShowAll});
-	map.contextmenu.addItem({text: 'Link to this map', iconCls: 'osm-link', callback: linkToThisMap});
-	map.contextmenu.addItem({text: 'Find my position', iconCls: 'osm-direction', callback: findMyLocation});
+	map.contextmenu.addItem({text: 'Show all items', iconCls: 'swisstopo-link-ext', callback: goShowAll});
+	map.contextmenu.addItem({text: 'Link to this map', iconCls: 'swisstopo-link', callback: linkToThisMap});
+	map.contextmenu.addItem({text: 'Find my position', iconCls: 'swisstopo-direction', callback: findMyLocation});
 	map.contextmenu.addItem({separator: true});
-	map.contextmenu.addItem({text: 'Zoom in', iconCls: 'osm-zoom-in', callback: zoomIn});
-	map.contextmenu.addItem({text: 'Zoom out', iconCls: 'osm-zoom-out', callback: zoomOut});
+	map.contextmenu.addItem({text: 'Zoom in', iconCls: 'swisstopo-zoom-in', callback: zoomIn});
+	map.contextmenu.addItem({text: 'Zoom out', iconCls: 'swisstopo-zoom-out', callback: zoomOut});
 	/* END leaflet-locatecontrol */
 
-	/* BEGIN piwigo-openstreetmap plugin */
+	/* BEGIN piwigo_swisstopo plugin */
 	map.on('moveend', onMapMove);
 
 	function onMapMove(e){
@@ -232,12 +232,12 @@ html, body {
  */
 
 var provider_mapping = {
-    'mapnik'         : 'OpenStreetMap_Mapnik',
-    'blackandwhite'  : 'OpenStreetMap_BlackAndWhite',
-    'mapnikfr'       : 'OpenStreetMap_France',
-    'mapnikde'       : 'OpenStreetMap_DE',
-    'mapnikhot'      : 'OpenStreetMap_HOT',
-    'mapquest'       : 'MapQuestOpen_OSM',
+    'mapnik'         : 'Swisstopo_Mapnik',
+    'blackandwhite'  : 'Swisstopo_BlackAndWhite',
+    'mapnikfr'       : 'Swisstopo_France',
+    'mapnikde'       : 'Swisstopo_DE',
+    'mapnikhot'      : 'Swisstopo_HOT',
+    'mapquest'       : 'MapQuestOpen_SWISSTOPO',
     'mapquestaerial' : 'MapQuestOpen_Aerial',
     'cloudmade'      : 'CloudMade',
     'toner'          : 'Stamen_Toner',
@@ -246,57 +246,57 @@ var provider_mapping = {
 
 var providers = {};
 
-providers['OpenStreetMap_Mapnik'] = {
-    title: 'osm',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/openstreetmap_mapnik.png',
-    layer: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+providers['Swisstopo_Mapnik'] = {
+    title: 'swisstopo',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/swisstopo_mapnik.png',
+    layer: L.tileLayer('https://{s}.tile.swisstopo.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '&copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>'
     })
 };
 
-providers['OpenStreetMap_BlackAndWhite'] = {
-    title: 'osm bw',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/openstreetmap_blackandwhite.png',
+providers['Swisstopo_BlackAndWhite'] = {
+    title: 'swisstopo bw',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/swisstopo_blackandwhite.png',
     layer: L.tileLayer('https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
         maxZoom: 18,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '&copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>'
     })
 };
 
-providers['OpenStreetMap_France'] = {
-    title: 'osm fr',
-    icon: 'https://a.tile.openstreetmap.fr/osmfr/5/15/11.png',
-    layer: L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+providers['Swisstopo_France'] = {
+    title: 'swisstopo fr',
+    icon: 'https://a.tile.swisstopo.fr/swisstopofr/5/15/11.png',
+    layer: L.tileLayer('https://{s}.tile.swisstopo.fr/swisstopofr/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; Openstreetmap France | &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '&copy; Swisstopo France | &copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>'
     })
 }
 
-providers['OpenStreetMap_DE'] = {
-    title: 'osm de',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/openstreetmap_de.png',
-    layer: L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+providers['Swisstopo_DE'] = {
+    title: 'swisstopo de',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/swisstopo_de.png',
+    layer: L.tileLayer('https://{s}.tile.swisstopo.de/tiles/swisstopode/{z}/{x}/{y}.png', {
         maxZoom: 18,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        attribution: '&copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>'
     })
 }
 
-providers['OpenStreetMap_HOT'] = {
-    title: 'osm HOT',
-    icon: 'http://a.tile.openstreetmap.fr/hot/5/15/11.png',
-    layer: L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+providers['Swisstopo_HOT'] = {
+    title: 'swisstopo HOT',
+    icon: 'http://a.tile.swisstopo.fr/hot/5/15/11.png',
+    layer: L.tileLayer('http://{s}.tile.swisstopo.fr/hot/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
+        attribution: '&copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>, Tiles courtesy of <a href="http://hot.swisstopo.org/" target="_blank">Humanitarian Swisstopo Team</a>'
     })
 }
 
-providers['MapQuestOpen_OSM'] = {
+providers['MapQuestOpen_SWISSTOPO'] = {
     title: 'MapQuest',
     icon: 'http://otile1.mqcdn.com/tiles/1.0.0/map/5/15/11.png',
     layer: L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>',
         subdomains: '1234'
     })
 }
@@ -312,9 +312,9 @@ providers['MapQuestOpen_Aerial'] = {
 
 providers['Stamen_Toner'] = {
     title: 'toner',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/stamen_toner.png',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/stamen_toner.png',
     layer: L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
-        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>',
         subdomains: 'abcd',
         minZoom: 0,
         maxZoom: 20,
@@ -324,7 +324,7 @@ providers['Stamen_Toner'] = {
 
 providers['Esri_WorldTerrain'] = {
     title: 'esri terrain',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/esri_worldterrain.png',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/esri_worldterrain.png',
     layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
         maxZoom: 13
@@ -333,7 +333,7 @@ providers['Esri_WorldTerrain'] = {
 
 providers['Esri_OceanBasemap'] = {
     title: 'esri ocean',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/esri_oceanbasemap.png',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/esri_oceanbasemap.png',
     layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
         maxZoom: 13
@@ -342,7 +342,7 @@ providers['Esri_OceanBasemap'] = {
 
 providers['HERE_normalDay'] = {
     title: 'normalday',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/here_normalday.png',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/here_normalday.png',
     layer: L.tileLayer('https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/normal.day/{z}/{x}/{y}/256/png8?app_id={app_id}&app_code={app_code}', {
         attribution: 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
         subdomains: '1234',
@@ -356,7 +356,7 @@ providers['HERE_normalDay'] = {
 
 providers['HERE_normalDayGrey'] = {
     title: 'normalday grey',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/here_normaldaygrey.png',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/here_normaldaygrey.png',
     layer: L.tileLayer('https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/normal.day.grey/{z}/{x}/{y}/256/png8?app_id={app_id}&app_code={app_code}', {
         attribution: 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
         subdomains: '1234',
@@ -370,7 +370,7 @@ providers['HERE_normalDayGrey'] = {
 
 providers['HERE_satelliteDay'] = {
     title: 'satellite',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/here_satelliteday.png',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/here_satelliteday.png',
     layer: L.tileLayer('https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/satellite.day/{z}/{x}/{y}/256/png8?app_id={app_id}&app_code={app_code}', {
         attribution: 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
         subdomains: '1234',
@@ -384,9 +384,9 @@ providers['HERE_satelliteDay'] = {
 
 providers['CartoDB_Positron'] = {
     title: 'positron',
-    icon: '{/literal}{$OSM_PATH}{literal}leaflet/icons/cartodb_positron.png',
+    icon: '{/literal}{$SWISSTOPO_PATH}{literal}leaflet/icons/cartodb_positron.png',
     layer: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+        attribution: '&copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
         subdomains: 'abcd',
         maxZoom: 19
     })
@@ -402,7 +402,7 @@ providers['CartoDB_Positron'] = {
             // The following attribution might be wrong
             // Please refer to https://leaflet-extras.github.io/leaflet-providers/preview/
             // to get the correct attribution notice.
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            attribution: '&copy; <a href="http://www.swisstopo.org/copyright">Swisstopo</a>',
             maxZoom: 19
         })
     };

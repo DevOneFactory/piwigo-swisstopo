@@ -20,11 +20,11 @@
         _map,
         _zoomThreshold,
         _hideClass = 'leaflet-control-edit-hidden',
-        _anchorClass = 'leaflet-control-edit-in-osm-toggle',
+        _anchorClass = 'leaflet-control-edit-in-swisstopo-toggle',
 
         _Widgets =  {
             SimpleButton: function (config) {
-                var className = (config && config.className) || 'leaflet-control-edit-in-osm-simple',
+                var className = (config && config.className) || 'leaflet-control-edit-in-swisstopo-simple',
                     helpText = config && config.helpText,
                     addEditors = (config && config.addEditors) || function (container, editors) {
                         addEditorToWidget(container, editors[0], helpText);
@@ -37,8 +37,8 @@
                 };
             },
             MultiButton: function (config) {
-                var className = 'leaflet-control-edit-in-osm',
-                    helpText = "Open this map extent in a map editor to provide more accurate data to OpenStreetMap",
+                var className = 'leaflet-control-edit-in-swisstopo',
+                    helpText = "Open this map extent in a map editor to provide more accurate data to Swisstopo",
                     addEditors = function (container, editors) {
                         for (var i in editors) {
                             addEditorToWidget(container, editors[i]);
@@ -53,7 +53,7 @@
             },
             AttributionBox: function (config) {
                 var className = 'leaflet-control-attribution',
-                    helpText = "Edit in OSM",
+                    helpText = "Edit in SWISSTOPO",
                     addEditors = function (container, editors) {
                         addEditorToWidget(container, editors[0], helpText);
                     };
@@ -68,7 +68,7 @@
 
         _Editors = {
             Id: function (config) {
-                var url = 'https://www.openstreetmap.org/edit?editor=id#map=',
+                var url = 'https://www.swisstopo.org/edit?editor=id#map=',
                     displayName = "iD",
                     buildUrl = function (map) {
                         return this.url + [
@@ -83,10 +83,10 @@
                     buildUrl: (config && config.buildUrl) || buildUrl
                 };
             },
-            Josm: function (config) {
+            Jswisstopo: function (config) {
                 var url = 'http://127.0.0.1:8111/load_and_zoom',
                     timeout = 1000,
-                    displayName = "JOSM",
+                    displayName = "JSWISSTOPO",
                     buildUrl = function (map) {
                         var bounds = map.getBounds();
                         return this.url + L.Util.getParamString({
@@ -134,7 +134,7 @@
     }
 
     function addEditorToWidget(widgetContainer, editor, text) {
-        var editorWidget = L.DomUtil.create('a', "osm-editor", widgetContainer);
+        var editorWidget = L.DomUtil.create('a', "swisstopo-editor", widgetContainer);
         editorWidget.href = "#";
         editorWidget.innerHTML = text || editor.displayName;
         L.DomEvent.on(editorWidget, "click", function (e) {
@@ -143,7 +143,7 @@
         });
     }
 
-    // Make the EditInOSM widget visible or invisible after each
+    // Make the EditInSWISSTOPO widget visible or invisible after each
     // zoom event.
     //
     // configurable by setting the *zoomThreshold* option.
@@ -156,13 +156,13 @@
         }
     }
 
-    L.Control.EditInOSM = L.Control.extend({
+    L.Control.EditInSWISSTOPO = L.Control.extend({
 
         options: {
             position: "topright",
             zoomThreshold: 0,
             widget: "multiButton",
-            editors: ["id", "josm"]
+            editors: ["id", "jswisstopo"]
         },
 
         initialize: function (options) {
@@ -195,8 +195,8 @@
 
                 if (editorSmallName === "id") {
                     newEditors.push(new _Editors.Id());
-                } else if (editorSmallName === "josm") {
-                    newEditors.push(new _Editors.Josm());
+                } else if (editorSmallName === "jswisstopo") {
+                    newEditors.push(new _Editors.Jswisstopo());
                 } else if (editorSmallName === "potlatch") {
                     newEditors.push(new _Editors.Potlatch());
                 } else {
@@ -227,13 +227,13 @@
 
     });
 
-    L.Control.EditInOSM.Widgets = _Widgets;
-    L.Control.EditInOSM.Editors = _Editors;
+    L.Control.EditInSWISSTOPO.Widgets = _Widgets;
+    L.Control.EditInSWISSTOPO.Editors = _Editors;
 
     L.Map.addInitHook(function () {
-        if (this.options.editInOSMControlOptions) {
-            var options = this.options.editInOSMControlOptions || {};
-            this.editInOSMControl = (new L.Control.EditInOSM(options)).addTo(this);
+        if (this.options.editInSWISSTOPOControlOptions) {
+            var options = this.options.editInSWISSTOPOControlOptions || {};
+            this.editInSWISSTOPOControl = (new L.Control.EditInSWISSTOPO(options)).addTo(this);
         }
     });
 

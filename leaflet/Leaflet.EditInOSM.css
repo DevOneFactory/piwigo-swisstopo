@@ -1,25 +1,25 @@
-.leaflet-control-edit-in-osm-simple,
-.leaflet-control-edit-in-osm {
+.leaflet-control-edit-in-swisstopo-simple,
+.leaflet-control-edit-in-swisstopo {
     background: none repeat scroll 0 0 #F8F8F9;
     border: 1px solid #888888;
     border-radius: 5px 5px 5px 5px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 }
-.leaflet-control-edit-in-osm .leaflet-control-edit-in-osm-toggle {
+.leaflet-control-edit-in-swisstopo .leaflet-control-edit-in-swisstopo-toggle {
     background-position: 50% 50%;
     background-repeat: no-repeat;
     height: 36px;
     width: 36px;
     display: block;
 }
-.leaflet-control-edit-in-osm .leaflet-control-edit-in-osm-toggle {
-    background-image: url("./images/edit-in-osm.png");
+.leaflet-control-edit-in-swisstopo .leaflet-control-edit-in-swisstopo-toggle {
+    background-image: url("./images/edit-in-swisstopo.png");
 }
-.leaflet-control-edit-in-osm .osm-editor + .osm-editor {
+.leaflet-control-edit-in-swisstopo .swisstopo-editor + .swisstopo-editor {
     border-left: 1px solid black;
 }
-.leaflet-control-edit-in-osm-simple a.osm-editor,
-.leaflet-control-edit-in-osm a.osm-editor {
+.leaflet-control-edit-in-swisstopo-simple a.swisstopo-editor,
+.leaflet-control-edit-in-swisstopo a.swisstopo-editor {
     display: none;
     height: 36px;
     min-width: 36px;
@@ -30,14 +30,14 @@
     text-decoration: none;
     font-family: sans-serif;
 }
-.leaflet-control-edit-in-osm-simple a.osm-editor,
-.leaflet-control-edit-in-osm:hover a.osm-editor {
+.leaflet-control-edit-in-swisstopo-simple a.swisstopo-editor,
+.leaflet-control-edit-in-swisstopo:hover a.swisstopo-editor {
     display: inline-block;
 }
-a.osm-editor:hover {
+a.swisstopo-editor:hover {
     box-shadow: 0 0 2px 0 black inset;
 }
-.leaflet-control-edit-in-osm:hover .leaflet-control-edit-in-osm-toggle {
+.leaflet-control-edit-in-swisstopo:hover .leaflet-control-edit-in-swisstopo-toggle {
     display: none;
 }
 

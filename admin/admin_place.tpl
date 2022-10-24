@@ -1,5 +1,5 @@
 {html_head}
-<link rel="stylesheet" href="{$OSM_PATH}fontello/css/osm.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}fontello/css/swisstopo.css" />
 {/html_head}
 
 {html_style}
@@ -8,7 +8,7 @@
 
 Create place to allow reuse of location.
 <br/><br/>
-Refer to the <a href="https://github.com/xbgmsharp/piwigo-openstreetmap/wiki" target="_blanck">plugin documentation</a> for additional information. Create an <a href="https://github.com/xbgmsharp/piwigo-openstreetmap/issues" target="_blanck">issue</a> for support, or feedback, or feature request.
+Refer to the <a href="https://github.com/xbgmsharp/piwigo_swisstopo/wiki" target="_blanck">plugin documentation</a> for additional information. Create an <a href="https://github.com/xbgmsharp/piwigo_swisstopo/issues" target="_blanck">issue</a> for support, or feedback, or feature request.
 
 {footer_script require='jquery'}
 jQuery('.showInfo').tipTip({
@@ -104,10 +104,10 @@ $("#searchInput").on("keydown", function(e) {
   {/if}
 
   <fieldset>
-    <legend>{'OSM_ADD_PLACE'|@translate}</legend>
+    <legend>{'SWISSTOPO_ADD_PLACE'|@translate}</legend>
     <ul>
 	<li>
-		<label>{'OSM_NEW_PLACE'|@translate} : </label>
+		<label>{'SWISSTOPO_NEW_PLACE'|@translate} : </label>
 		<input type="text" name="add_place" size="50" require="" placeholder="Home">
 	</li>
 	<li>

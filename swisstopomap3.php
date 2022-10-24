@@ -1,10 +1,10 @@
 <?php
 /***********************************************
-* File      :   osmmap4.php
-* Project   :   piwigo-openstreetmap
-* Descr     :   Display a world map v4
+* File      :   swisstopomap3.php
+* Project   :   piwigo_swisstopo
+* Descr     :   Display a world map v3
 *
-* Created   :   10.07.2015
+* Created   :   28.05.2014
 *
 * Copyright 2013-2016 <xbgmsharp@gmail.com>
 *
@@ -33,8 +33,8 @@ include_once( dirname(__FILE__) .'/include/functions_map.php');
 
 check_status(ACCESS_GUEST);
 
-osm_load_language();
-load_language('plugin.lang', OSM_PATH);
+swisstopo_load_language();
+load_language('plugin.lang', SWISSTOPO_PATH);
 
 $section = '';
 if ( $conf['question_mark_in_urls']==false and isset($_SERVER["PATH_INFO"]) and !empty($_SERVER["PATH_INFO"]) )
@@ -60,7 +60,7 @@ else
 // deleting first "/" if displayed
 $tokens = explode('/', preg_replace('#^/#', '', $section));
 $next_token = 0;
-$result = osm_parse_map_data_url($tokens, $next_token);
+$result = swisstopo_parse_map_data_url($tokens, $next_token);
 $page = array_merge( $page, $result );
 
 
@@ -68,8 +68,8 @@ if (isset($page['category']))
 	check_restrictions($page['category']['id']);
 
 /* If the config include parameters get them */
-$zoom = isset($conf['osm_conf']['left_menu']['zoom']) ? $conf['osm_conf']['left_menu']['zoom'] : 2;
-$center = isset($conf['osm_conf']['left_menu']['center']) ? $conf['osm_conf']['left_menu']['center'] : '0,0';
+$zoom = isset($conf['swisstopo_conf']['left_menu']['zoom']) ? $conf['swisstopo_conf']['left_menu']['zoom'] : 2;
+$center = isset($conf['swisstopo_conf']['left_menu']['center']) ? $conf['swisstopo_conf']['left_menu']['center'] : '0,0';
 $center_arr = preg_split('/,/', $center);
 $center_lat = isset($center_arr) ? $center_arr[0] : 0;
 $center_lng = isset($center_arr) ? $center_arr[1] : 0;
@@ -86,10 +86,10 @@ $local_conf['center_lng'] = $center_lng;
 $local_conf['contextmenu'] = 'true';
 $local_conf['control'] = true;
 $local_conf['img_popup'] = false;
-$local_conf['paths'] = osm_get_gps($page);
-$local_conf = $local_conf + $conf['osm_conf']['map'] + $conf['osm_conf']['left_menu'];
+$local_conf['paths'] = swisstopo_get_gps($page);
+$local_conf = $local_conf + $conf['swisstopo_conf']['map'] + $conf['swisstopo_conf']['left_menu'];
 
-$js_data = osm_get_items($page);
-$js = osm_get_js($conf, $local_conf, $js_data);
-osm_gen_template($conf, $js, $js_data, 'osm-map4.tpl', $template);
+$js_data = swisstopo_get_items($page);
+$js = swisstopo_get_js($conf, $local_conf, $js_data);
+swisstopo_gen_template($conf, $js, $js_data, 'swisstopo-map3.tpl', $template);
 ?>

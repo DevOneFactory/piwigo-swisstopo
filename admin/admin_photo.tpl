@@ -1,12 +1,12 @@
 {html_head}
-<link rel="stylesheet" href="{$OSM_PATH}fontello/css/osm.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet-search.min.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/Leaflet.EditInOSM.css" />
-<script src="{$OSM_PATH}leaflet/leaflet.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet-search.min.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet-providers.js"></script>
-<script src="{$OSM_PATH}leaflet/Leaflet.EditInOSM.js"></script>
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}fontello/css/swisstopo.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet-search.min.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/Leaflet.EditInSWISSTOPO.css" />
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet-search.min.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet-providers.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/Leaflet.EditInSWISSTOPO.js"></script>
 {/html_head}
 
 {html_style}
@@ -28,7 +28,7 @@
   </div>
 {/if}
 
-<form action="{$F_ACTION}" method="post" id="openstreetmap">
+<form action="{$F_ACTION}" method="post" id="swisstopo">
 
 	<input type="hidden" name="pwg_token" value="{$PWG_TOKEN}">
 	<fieldset>
@@ -39,17 +39,17 @@
 		<div style="float: left; margin: auto; padding-left:20px; vertical-align:top;">
                         <ul style="margin:0;">
 				<li>
-					<label><input type="text" size="9" id="osmlat" name="osmlat" value="{$LAT}"> {'LATITUDE'|@translate} (-90=S to 90=N)</label>
+					<label><input type="text" size="9" id="swisstopolat" name="swisstopolat" value="{$LAT}"> {'LATITUDE'|@translate} (-90=S to 90=N)</label>
 				</li>
 				<li>
-					<label><input type="text" size="9" id="osmlon" name="osmlon" value="{$LON}"> {'LONGITUDE'|@translate} (-180=W to 180=E)</label>
+					<label><input type="text" size="9" id="swisstopolon" name="swisstopolon" value="{$LON}"> {'LONGITUDE'|@translate} (-180=W to 180=E)</label>
 				</li>
 			</ul>
 			<hr>
 			<ul>
 				<li>
 					<label>Save places :</label>
-					<select id="osmplaces" name="osmplaces" onchange="place_to_latlon(this)">
+					<select id="swisstopoplaces" name="swisstopoplaces" onchange="place_to_latlon(this)">
 						<option value="NULL">--</option>
 						{html_options options=$AVAILABLE_PLACES}
 					</select>
@@ -81,7 +81,7 @@ Latitude and Longitude will be delete.'|@translate|@escape:javascript}');">{'Era
 <script type="text/javascript">
 
 	{/literal}
-	{$OSM_JS}
+	{$SWISSTOPO_JS}
 	{literal}
 
 	var popup = L.popup();
@@ -91,9 +91,9 @@ Latitude and Longitude will be delete.'|@translate|@escape:javascript}');">{'Era
 			.setLatLng(e.latlng)
 			.setContent("You clicked the map at " + e.latlng.toString())
 			.openOn(map);
-		var form=document.forms["openstreetmap"]
-		form.osmlat.value = Math.ceil(e.latlng.lat * 100000) / 100000;
-		form.osmlon.value = Math.ceil(e.latlng.lng * 100000) / 100000;
+		var form=document.forms["swisstopo"]
+		form.swisstopolat.value = Math.ceil(e.latlng.lat * 100000) / 100000;
+		form.swisstopolon.value = Math.ceil(e.latlng.lng * 100000) / 100000;
 	}
 
 	map.on('click', onMapClick);
@@ -102,7 +102,7 @@ Latitude and Longitude will be delete.'|@translate|@escape:javascript}');">{'Era
 	/* BEGIN leaflet-search */
 	/*
 	var jsonpurl = 'https://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
-				   '&format=json&osm_type=N&limit=100&addressdetails=0',
+				   '&format=json&swisstopo_type=N&limit=100&addressdetails=0',
 		jsonpName = 'json_callback';
 	//third party jsonp service
 
@@ -139,11 +139,11 @@ Latitude and Longitude will be delete.'|@translate|@escape:javascript}');">{'Era
 
 function place_to_latlon()
 {
-	var select = document.getElementById("osmplaces").value;
+	var select = document.getElementById("swisstopoplaces").value;
 	{/literal}{$LIST_PLACES}{literal}
 	//alert(arr_places[select]);
-	var lat_elem = document.getElementById("osmlat");
-	var lon_elem = document.getElementById("osmlon");
+	var lat_elem = document.getElementById("swisstopolat");
+	var lon_elem = document.getElementById("swisstopolon");
 	if (arr_places[select] == "NULL")
 	{
 		lat_elem.value = "0";

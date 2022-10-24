@@ -1,6 +1,6 @@
 {
-  "name": "osm",
-  "css_prefix_text": "osm-",
+  "name": "swisstopo",
+  "css_prefix_text": "swisstopo-",
   "css_use_suffix": false,
   "hinting": true,
   "units_per_em": 1000,

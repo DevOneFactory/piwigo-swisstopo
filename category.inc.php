@@ -1,8 +1,8 @@
 <?php
 /***********************************************
 * File      :   category.inc.php
-* Project   :   piwigo-openstreetmap
-* Descr     :   Display an OSM map on the category layout
+* Project   :   piwigo_swisstopo
+* Descr     :   Display an SWISSTOPO map on the category layout
 *
 * Created   :   10.10.2014
 *
@@ -26,25 +26,25 @@
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 // Do we have to show the right panel
-if ($conf['osm_conf']['category_description']['enabled'])
+if ($conf['swisstopo_conf']['category_description']['enabled'])
 {
     // Hook to add comment
-    add_event_handler('loc_begin_index', 'osm_render_category');
+    add_event_handler('loc_begin_index', 'swisstopo_render_category');
     // Hook to show data after Thumbnails
     // Use only one trigger as we do have all the data need on first run trigger
-    // add_event_handler('loc_end_index', 'osm_render_category');
+    // add_event_handler('loc_end_index', 'swisstopo_render_category');
 }
 
-function osm_render_category()
+function swisstopo_render_category()
 {
         global $template, $page, $conf, $filter;
 
         include_once( dirname(__FILE__) .'/include/functions.php');
         include_once( dirname(__FILE__) .'/include/functions_map.php');
-        osm_load_language();
-        load_language('plugin.lang', OSM_PATH);
+        swisstopo_load_language();
+        load_language('plugin.lang', SWISSTOPO_PATH);
 
-        $js_data = osm_get_items($page);
+        $js_data = swisstopo_get_items($page);
         if ($js_data != array())
         {
             $local_conf = array();
@@ -56,28 +56,28 @@ function osm_render_category()
             $local_conf['center_lng'] = 0;
             $local_conf['zoom'] = 2;
             $local_conf['autocenter'] = 1;
-            $local_conf['paths'] = osm_get_gps($page);
-            $height = isset($conf['osm_conf']['category_description']['height']) ? $conf['osm_conf']['category_description']['height'] : '200';
-            $width = isset($conf['osm_conf']['category_description']['width']) ? $conf['osm_conf']['category_description']['width'] : 'auto';
-            $js = osm_get_js($conf, $local_conf, $js_data);
-            $template->set_filename('map', dirname(__FILE__).'/template/osm-category.tpl' );
+            $local_conf['paths'] = swisstopo_get_gps($page);
+            $height = isset($conf['swisstopo_conf']['category_description']['height']) ? $conf['swisstopo_conf']['category_description']['height'] : '200';
+            $width = isset($conf['swisstopo_conf']['category_description']['width']) ? $conf['swisstopo_conf']['category_description']['width'] : 'auto';
+            $js = swisstopo_get_js($conf, $local_conf, $js_data);
+            $template->set_filename('map', dirname(__FILE__).'/template/swisstopo-category.tpl' );
             $template->assign(
                 array(
                     'CONTENT_ENCODING' => get_pwg_charset(),
-                    'OSM_PATH'         => embellish_url(get_gallery_home_url().OSM_PATH),
+                    'SWISSTOPO_PATH'         => embellish_url(get_gallery_home_url().SWISSTOPO_PATH),
                     'HOME'             => make_index_url(),
                     'HOME_PREV'        => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : get_absolute_root_url(),
                     'HOME_NAME'        => l10n("Home"),
                     'HOME_PREV_NAME'   => l10n("Previous"),
-                    'OSMJS'            => $js,
+                    'SWISSTOPOJS'            => $js,
                     'HEIGHT'           => $height,
                     'WIDTH'            => $width,
                 )
             );
 
-            $osm_content = $template->parse('map', true);
-            //$osm_content = '<div id="osmmap"><div class="map_title">'.l10n('EDIT_MAP').'</div>' . $osm_content . '</div>';
-            $index = isset($conf['osm_conf']['category_description']['index']) ? $conf['osm_conf']['category_description']['index'] : 0;
+            $swisstopo_content = $template->parse('map', true);
+            //$swisstopo_content = '<div id="swisstopomap"><div class="map_title">'.l10n('EDIT_MAP').'</div>' . $swisstopo_content . '</div>';
+            $index = isset($conf['swisstopo_conf']['category_description']['index']) ? $conf['swisstopo_conf']['category_description']['index'] : 0;
             // 0 - PLUGIN_INDEX_CONTENT_BEGIN
             // 1 - PLUGIN_INDEX_CONTENT_COMMENT
             // 2 - PLUGIN_INDEX_CONTENT_END
@@ -87,20 +87,20 @@ function osm_render_category()
               if ($page['start']==0 and !isset($page['chronology_field']) )
               {
                 if (empty($page['comment']))
-                   $page['comment'] = $osm_content;
+                   $page['comment'] = $swisstopo_content;
                 else
                 {
                   if ($index == 0)
-                     $page['comment'] = '<div>' . $osm_content . $page['comment'] .'</div>';
+                     $page['comment'] = '<div>' . $swisstopo_content . $page['comment'] .'</div>';
                   else
-                     $page['comment'] = '<div>' . $page['comment'] . $osm_content . '</div>';
+                     $page['comment'] = '<div>' . $page['comment'] . $swisstopo_content . '</div>';
                 }
               }
             }
 	    else
             {
-              $osm_content = '<div id="osmmap">'. $osm_content . '</div>';
-              $template->concat( 'PLUGIN_INDEX_CONTENT_END' , "\n".$osm_content);
+              $swisstopo_content = '<div id="swisstopomap">'. $swisstopo_content . '</div>';
+              $template->concat( 'PLUGIN_INDEX_CONTENT_END' , "\n".$swisstopo_content);
             }
         }
 }

@@ -6,7 +6,7 @@ defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
  * It must extends PluginMaintain and be named "PLUGINID_maintain"
  * where PLUGINID is the directory name of your plugin.
  */
-class piwigo_openstreetmap_maintain extends PluginMaintain
+class piwigo_swisstopo_maintain extends PluginMaintain
 {
   private $default_conf = array(
     'right_panel' => array(
@@ -16,7 +16,7 @@ class piwigo_openstreetmap_maintain extends PluginMaintain
       'zoom' => 12,
       'link' => 'Location',
       'linkcss' => null,
-      'showosm' => true,
+      'showswisstopo' => true,
       ),
     'left_menu' => array(
       'enabled' => true,
@@ -50,7 +50,7 @@ class piwigo_openstreetmap_maintain extends PluginMaintain
       'unit_height' => '200',
       ),
     'map' => array(
-      'baselayer' => 'mapnik',
+      'baselayer' => 'swisstopo',
       'custombaselayer' => null,
       'custombaselayerurl' => null,
       'noworldwarp' => false,
@@ -78,7 +78,7 @@ class piwigo_openstreetmap_maintain extends PluginMaintain
     global $prefixeTable;
 
     // Class members can't be declared with computed values so initialization is done here
-    $this->table = $prefixeTable . 'osm_places';
+    $this->table = $prefixeTable . 'swisstopo_places';
   }
 
   /**
@@ -92,13 +92,13 @@ class piwigo_openstreetmap_maintain extends PluginMaintain
     global $conf;
 
     // add config parameter
-    if (empty($conf['osm_conf']))
+    if (empty($conf['swisstopo_conf']))
     {
-      conf_update_param('osm_conf', $this->default_conf, true);
+      conf_update_param('swisstopo_conf', $this->default_conf, true);
     }
     else
     {
-      $old_conf = safe_unserialize($conf['osm_conf']);
+      $old_conf = safe_unserialize($conf['swisstopo_conf']);
 
       foreach ($this->default_conf as $conf_settings_group_key => $conf_settings_group_value)
       {
@@ -118,7 +118,7 @@ class piwigo_openstreetmap_maintain extends PluginMaintain
         }
       }
 
-      conf_update_param('osm_conf', $old_conf, true);
+      conf_update_param('swisstopo_conf', $old_conf, true);
     }
 
     // add a new table
@@ -140,24 +140,24 @@ CREATE TABLE IF NOT EXISTS `'.$this->table.'` (
       pwg_query('ALTER TABLE `'.$this->table.'` CHANGE `longitude` `longitude` double(9,6) NOT NULL;');
     }
 
-    if (conf_get_param('osm_add_osmmap.php', true))
+    if (conf_get_param('swisstopo_add_swisstopomap.php', true))
     {
       $c = <<<EOF
 <?php
 define('PHPWG_ROOT_PATH','./');
 if (isset(\$_GET['v']) and \$_GET['v'] == 1)
-  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo-openstreetmap/osmmap.php');
+  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo_swisstopo/swisstopomap.php');
 else if (isset(\$_GET['v']) and \$_GET['v'] == 2)
-  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo-openstreetmap/osmmap2.php');
+  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo_swisstopo/swisstopomap2.php');
 else if (isset(\$_GET['v']) and \$_GET['v'] == 3)
-  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo-openstreetmap/osmmap3.php');
+  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo_swisstopo/swisstopomap3.php');
 else if (isset(\$_GET['v']) and \$_GET['v'] == 4)
-  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo-openstreetmap/osmmap4.php');
+  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo_swisstopo/swisstopomap4.php');
 else
-  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo-openstreetmap/osmmap3.php');
+  include_once( PHPWG_ROOT_PATH. 'plugins/piwigo_swisstopo/swisstopomap3.php');
 ?>
 EOF;
-      file_put_contents(PHPWG_ROOT_PATH.'osmmap.php', $c);
+      file_put_contents(PHPWG_ROOT_PATH.'swisstopomap.php', $c);
     }
   }
 
@@ -203,14 +203,14 @@ EOF;
   function uninstall()
   {
     // delete configuration
-    conf_delete_param('osm_conf');
+    conf_delete_param('swisstopo_conf');
 
     // delete table
     pwg_query('DROP TABLE `'. $this->table .'`;');
 
-    if (conf_get_param('osm_remove_osmmap.php', true))
+    if (conf_get_param('swisstopo_remove_swisstopomap.php', true))
     {
-      @unlink(PHPWG_ROOT_PATH.'osmmap.php');
+      @unlink(PHPWG_ROOT_PATH.'swisstopomap.php');
     }
   }
 }

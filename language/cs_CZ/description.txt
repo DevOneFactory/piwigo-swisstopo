@@ -1,1 +1,1 @@
-OpenStreetMap napojení na Piwigo
+Swisstopo napojení na Piwigo

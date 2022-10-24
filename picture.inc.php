@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   picture.inc.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   Display map on right panel
 *
 * Created   :   28.05.2013
@@ -25,25 +25,25 @@
 
 include_once( dirname(__FILE__) .'/include/functions_map.php');
 // Do we have to show the right panel
-if ($conf['osm_conf']['right_panel']['enabled'])
+if ($conf['swisstopo_conf']['right_panel']['enabled'])
 {
     // Hook to add the div in the right menu, No idea about the number!!
-    add_event_handler('loc_begin_picture', 'osm_loc_begin_picture', 56);
+    add_event_handler('loc_begin_picture', 'swisstopo_loc_begin_picture', 56);
 
     // Hook to populate the div in the right menu, No idea about the number after!!
-    add_event_handler('loc_begin_picture', 'osm_render_element_content', EVENT_HANDLER_PRIORITY_NEUTRAL+1 /*in order to have picture content*/, 2);
+    add_event_handler('loc_begin_picture', 'swisstopo_render_element_content', EVENT_HANDLER_PRIORITY_NEUTRAL+1 /*in order to have picture content*/, 2);
 }
 
-function osm_loc_begin_picture()
+function swisstopo_loc_begin_picture()
 {
     global $template;
-    $template->set_prefilter('picture', 'osm_insert_map');
+    $template->set_prefilter('picture', 'swisstopo_insert_map');
 }
 
-function osm_insert_map($content)
+function swisstopo_insert_map($content)
 {
     global $conf;
-    load_language('plugin.lang', OSM_PATH);
+    load_language('plugin.lang', SWISSTOPO_PATH);
 
 /*	Would be better if it could be like the Metdata but how?
 	$search = '#<dl id="Metadata" class="imageInfoTable">#';
@@ -57,36 +57,36 @@ function osm_insert_map($content)
 <dl id="Metadata" class="imageInfoTable">';
 */
 
-    $search = '#<div id="'. $conf['osm_conf']['right_panel']['add_before'] .'" class="imageInfo">#';
+    $search = '#<div id="'. $conf['swisstopo_conf']['right_panel']['add_before'] .'" class="imageInfo">#';
     $replacement = '
-{if $OSMJS}
+{if $SWISSTOPOJS}
 <div id="map-info" class="imageInfo">
-    <dt {$OSMNAMECSS}>{$OSMNAME}</dt>
+    <dt {$SWISSTOPONAMECSS}>{$SWISSTOPONAME}</dt>
     <dd>
         <div id="map"></div>
-        <script type="text/javascript">{$OSMJS}</script>
-        <div id="osm_attrib" style="visibility: hidden; display: none;">
+        <script type="text/javascript">{$SWISSTOPOJS}</script>
+        <div id="swisstopo_attrib" style="visibility: hidden; display: none;">
             <ul>
                 <li>{"PLUGIN_BY"|@translate}</li>
                 <li><a href="http://leafletjs.com/" target="_blank">Leaflet</a></li>
-                <li>&copy; {"OSM_CONTRIBUTORS"|@translate}</li>
+                <li>&copy; {"SWISSTOPO_CONTRIBUTORS"|@translate}</li>
             </ul>
         </div>
-        {if $SHOWOSM}
-        <a href="{$OSMLINK}" target="_blank">{"VIEW_OSM"|@translate}</a>
+        {if $SHOWSWISSTOPO}
+        <a href="{$SWISSTOPOLINK}" target="_blank">{"VIEW_SWISSTOPO"|@translate}</a>
         {/if}
     </dd>
 </div>
 {/if}
-<div id="'. $conf['osm_conf']['right_panel']['add_before'] .'" class="imageInfo">';
+<div id="'. $conf['swisstopo_conf']['right_panel']['add_before'] .'" class="imageInfo">';
 
     return preg_replace($search, $replacement, $content);
 }
 
-function osm_render_element_content()
+function swisstopo_render_element_content()
 {
     global $template, $picture, $page, $conf;
-    load_language('plugin.lang', OSM_PATH);
+    load_language('plugin.lang', SWISSTOPO_PATH);
 
     if (empty($page['image_id']))
     {
@@ -106,16 +106,16 @@ function osm_render_element_content()
     $lon = $row['longitude'];
 
     // Load parameter, fallback to default if unset
-    $height = isset($conf['osm_conf']['right_panel']['height']) ? $conf['osm_conf']['right_panel']['height'] : '200';
-    $zoom = isset($conf['osm_conf']['right_panel']['zoom']) ? $conf['osm_conf']['right_panel']['zoom'] : '12';
-    $osmname = isset($conf['osm_conf']['right_panel']['link']) ? $conf['osm_conf']['right_panel']['link'] : 'Location';
-    $osmnamecss = isset($conf['osm_conf']['right_panel']['linkcss']) ? $conf['osm_conf']['right_panel']['linkcss'] : '';
-    $showosm = isset($conf['osm_conf']['right_panel']['showosm']) ? $conf['osm_conf']['right_panel']['showosm'] : 'true';
-    if (strlen($osmnamecss) != 0)
+    $height = isset($conf['swisstopo_conf']['right_panel']['height']) ? $conf['swisstopo_conf']['right_panel']['height'] : '200';
+    $zoom = isset($conf['swisstopo_conf']['right_panel']['zoom']) ? $conf['swisstopo_conf']['right_panel']['zoom'] : '12';
+    $swisstoponame = isset($conf['swisstopo_conf']['right_panel']['link']) ? $conf['swisstopo_conf']['right_panel']['link'] : 'Location';
+    $swisstoponamecss = isset($conf['swisstopo_conf']['right_panel']['linkcss']) ? $conf['swisstopo_conf']['right_panel']['linkcss'] : '';
+    $showswisstopo = isset($conf['swisstopo_conf']['right_panel']['showswisstopo']) ? $conf['swisstopo_conf']['right_panel']['showswisstopo'] : 'true';
+    if (strlen($swisstoponamecss) != 0)
     {
-        $osmnamecss = "style='".$osmnamecss."'";
+        $swisstoponamecss = "style='".$swisstoponamecss."'";
     }
-    $osmlink="https://openstreetmap.org/?mlat=".$lat."&amp;mlon=".$lon."&zoom=12&layers=M";
+    $swisstopolink="https://swisstopo.org/?mlat=".$lat."&amp;mlon=".$lon."&zoom=12&layers=M";
 
     $local_conf = array();
     $local_conf['contextmenu'] = 'false';
@@ -126,29 +126,29 @@ function osm_render_element_content()
     $local_conf['center_lng'] = $lon;
     $local_conf['zoom'] = $zoom;
 
-    $js_data = osm_get_items($page);
+    $js_data = swisstopo_get_items($page);
 
-    $js = osm_get_js($conf, $local_conf, $js_data);
+    $js = swisstopo_get_js($conf, $local_conf, $js_data);
 
     // Select the template
     $template->set_filenames(
-            array('osm_content' => dirname(__FILE__)."/template/osm-picture.tpl")
+            array('swisstopo_content' => dirname(__FILE__)."/template/swisstopo-picture.tpl")
     );
 
     // Assign the template variables
     $template->assign(
         array(
             'HEIGHT'		=> $height,
-            'OSMJS' 		=> $js,
-            'OSM_PATH'		=> embellish_url(get_gallery_home_url().OSM_PATH),
-            'OSMNAME'		=> $osmname,
-            'OSMNAMECSS'	=> $osmnamecss,
-            'SHOWOSM'		=> $showosm,
-            'OSMLINK'		=> $osmlink,
+            'SWISSTOPOJS' 		=> $js,
+            'SWISSTOPO_PATH'		=> embellish_url(get_gallery_home_url().SWISSTOPO_PATH),
+            'SWISSTOPONAME'		=> $swisstoponame,
+            'SWISSTOPONAMECSS'	=> $swisstoponamecss,
+            'SHOWSWISSTOPO'		=> $showswisstopo,
+            'SWISSTOPOLINK'		=> $swisstopolink,
         )
     );
 
     // Return the rendered html
-    $osm_content = $template->parse('osm_content', true);
-    return $osm_content;
+    $swisstopo_content = $template->parse('swisstopo_content', true);
+    return $swisstopo_content;
 }

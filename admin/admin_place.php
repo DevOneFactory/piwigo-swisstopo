@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   admin_place.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   Create place for reuse
 *
 * Created   :   07.07.2015
@@ -30,15 +30,15 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 check_status(ACCESS_ADMINISTRATOR);
 
 // Setup plugin Language
-load_language('plugin.lang', OSM_PATH);
+load_language('plugin.lang', SWISSTOPO_PATH);
 
 // Fetch the template.
 global $template, $conf, $lang, $prefixeTable;
 // Easy access
-define('osm_place_table', $prefixeTable.'osm_places');
+define('swisstopo_place_table', $prefixeTable.'swisstopo_places');
 
-/* Table to hold osm places details */
-$q = 'CREATE TABLE IF NOT EXISTS `'.osm_place_table.'` (
+/* Table to hold swisstopo places details */
+$q = 'CREATE TABLE IF NOT EXISTS `'.swisstopo_place_table.'` (
                 `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
                 `latitude` double(8,6) NOT NULL,
                 `longitude` double(9,6) NOT NULL,
@@ -58,7 +58,7 @@ if (isset($_POST['edit_submit']) and isset($_POST['edit_list']))
 {
   $query = '
 SELECT name
-  FROM '.osm_place_table.'
+  FROM '.swisstopo_place_table.'
   WHERE id NOT IN ('.$_POST['edit_list'].')
 ;';
   $existing_names = array_from_query($query, 'name');
@@ -66,7 +66,7 @@ SELECT name
   $current_name_of = array();
   $query = '
 SELECT id, name, latitude, longitude
-  FROM '.osm_place_table.'
+  FROM '.swisstopo_place_table.'
   WHERE id IN ('.$_POST['edit_list'].')
 ;';
   $result = pwg_query($query);
@@ -98,7 +98,7 @@ SELECT id, name, latitude, longitude
      }
   }
   mass_updates(
-    osm_place_table,
+    swisstopo_place_table,
     array(
       'primary' => array('id'),
       'update' => array('name', 'latitude', 'longitude'),
@@ -115,14 +115,14 @@ if (isset($_POST['delete']) and isset($_POST['places']))
 {
   $query = '
 SELECT name
-  FROM '.osm_place_table.'
+  FROM '.swisstopo_place_table.'
   WHERE id IN ('.implode(',', $_POST['places']).')
 ;';
   $place_names = array_from_query($query, 'name');
 
   $query = '
 DELETE
-  FROM '.osm_place_table.'
+  FROM '.swisstopo_place_table.'
   WHERE id IN ('.implode(',', $_POST['places']).')
 ;';
   pwg_query($query);
@@ -139,12 +139,12 @@ DELETE
 // +-----------------------------------------------------------------------+
 if (isset($_POST['add']) and !empty($_POST['add_place']))
 {
-  $query = "INSERT INTO `".osm_place_table."` (`name`, `latitude`, `longitude`) VALUE ('". $_POST['add_place'] ."', '". $_POST['add_lat'] ."', '". $_POST['add_lon'] ."');";
+  $query = "INSERT INTO `".swisstopo_place_table."` (`name`, `latitude`, `longitude`) VALUE ('". $_POST['add_place'] ."', '". $_POST['add_lat'] ."', '". $_POST['add_lon'] ."');";
   $result = pwg_query($query);
 }
 
 // all places
-$query = 'SELECT * FROM `'.osm_place_table.'`;';
+$query = 'SELECT * FROM `'.swisstopo_place_table.'`;';
 $result = pwg_query($query);
 $all_places = array();
 while ($place = pwg_db_fetch_assoc($result))
@@ -155,7 +155,7 @@ while ($place = pwg_db_fetch_assoc($result))
 // Send value to templates
 $template->assign(
 	array(
-		'OSM_PATH' => OSM_PATH,
+		'SWISSTOPO_PATH' => SWISSTOPO_PATH,
 		'all_places' => $all_places,
 	)
 );
@@ -176,7 +176,7 @@ if (isset($_POST['edit']) and isset($_POST['places']))
 
   $query = '
 SELECT id, name, latitude, longitude
-  FROM '.osm_place_table.'
+  FROM '.swisstopo_place_table.'
   WHERE id IN ('.implode(',', $_POST['places']).')
 ;';
   $result = pwg_query($query);

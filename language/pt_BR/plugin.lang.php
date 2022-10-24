@@ -25,8 +25,8 @@ $lang['ZOOM_DESC'] = '1: mais longe, 18: muito perto';
 $lang['ZOOM'] = 'Nível de zoom';
 $lang['SHOWWORLDMAPLEFT_DESC'] = 'Mostra o menu do mapa mundi no menu esquerdo, irá mostrar todas as imagens da galeria.';
 $lang['SHOWWORLDMAPLEFT'] = 'Adiciona menu do mapa mundi à esquerda';
-$lang['SHOWOSM_DESC'] = 'Adiciona um link depois do mapa para visualizar no OpenStreetMap.';
-$lang['SHOWOSM'] = 'Mostra \'Veja no OpenStreetMap\'';
+$lang['SHOWSWISSTOPO_DESC'] = 'Adiciona um link depois do mapa para visualizar no Swisstopo.';
+$lang['SHOWSWISSTOPO'] = 'Mostra \'Veja no Swisstopo\'';
 $lang['SHOWLOCATION_DESC'] = 'Mostra um mapa no painel direito na página da figura.';
 $lang['SHOWLOCATION'] = 'Exibe a localização do mapa';
 $lang['R_MAP'] = 'Configuração do painel direito';
@@ -75,11 +75,11 @@ $lang['G_MAP'] = 'Configuração do mapa';
 $lang['DISPLAY'] = 'Configuração do display';
 $lang['DEFAULTPIN'] = 'padrão';
 $lang['CUSTOMBASELAYERURL'] = 'URL do servidor \'tile\'';
-$lang['CUSTOMBASELAYERURL_DESC'] = 'Somente se o estilo de mapa personalizado for escolhido. Exemplo: http://tile.openstreetmap.org/{z}/{x}/{y}.png';
+$lang['CUSTOMBASELAYERURL_DESC'] = 'Somente se o estilo de mapa personalizado for escolhido. Exemplo: http://tile.swisstopo.org/{z}/{x}/{y}.png';
 $lang['CUSTOMBASELAYER_DESC'] = 'Somente se o estilo de mapa personalizado for escolhido. Quem enviou o estilo do mapa (tiles)?';
 $lang['CUSTOMBASELAYER'] = 'Estilo do mapa personalizado';
 $lang['CLICK'] = 'mostra ao clicar';
-$lang['BASELAYER_DESC'] = 'Mapnik é o estilo padrão do OpenStreetMap.';
+$lang['BASELAYER_DESC'] = 'Mapnik é o estilo padrão do Swisstopo.';
 $lang['BASELAYER'] = 'Estilo do mapa';
 $lang['ATTRPLUGIN_DESC'] = 'Eu criei este plugin. :)';
 $lang['ATTRPLUGIN'] = 'Mostra nota do Autor';
@@ -94,8 +94,8 @@ $lang['EDIT_UPDATE_LOCATION_DESC'] = 'Clicar no interior do mapa para atualizar 
 $lang['LATITUDE'] = 'Latitude';
 $lang['LONGITUDE'] = 'Longitude';
 $lang['MOUSE_OVER'] = 'Passe o mouse sobre um cluster para ver os limites dos dependentes e clique em um cluster para aumentar a esses limites';
-$lang['OSM_CONTRIBUTORS'] = '<a href="http://www.openstreetmap.org" target="_blank">OpenStreetMap</a> contribuidores, (<a href="http://www.openstreetmap.org/copyright" target="_blank">ODbL</a>)';
-$lang['PLUGIN_BY'] = 'Plugin desenvolvido por <a href="https://github.com/xbgmsharp/piwigo-openstreetmap" target="_blank">xbgmsharp</a>';
+$lang['SWISSTOPO_CONTRIBUTORS'] = '<a href="http://www.swisstopo.org" target="_blank">Swisstopo</a> contribuidores, (<a href="http://www.swisstopo.org/copyright" target="_blank">ODbL</a>)';
+$lang['PLUGIN_BY'] = 'Plugin desenvolvido por <a href="https://github.com/xbgmsharp/piwigo_swisstopo" target="_blank">xbgmsharp</a>';
 $lang['M_MAP'] = 'Menu principal';
 $lang['ZOOM_IN'] = 'Diminuir';
 $lang['ZOOM_OUT'] = 'Aumentar';
@@ -111,7 +111,7 @@ $lang['SHOW_ALL'] = 'Mostrar Tudo';
 $lang['SHOW_ALL_ITEMS'] = 'Mostrat todos os intens';
 $lang['SHOW_ALL_PIWIGO'] = 'Mostrar todos os itens na galeria Piwigo';
 $lang['SHOW_COORD'] = 'Mostrar coordenadas';
-$lang['VIEW_OSM'] = 'Ver OpenStreetMap';
+$lang['VIEW_SWISSTOPO'] = 'Ver Swisstopo';
 $lang['WIDTH'] = 'Largura do Mapa';
 $lang['WIDTH_DESC'] = 'em px ou auto';
 $lang['METERS_FROM_POINT'] = 'Você está há %s metros deste ponto';
@@ -145,10 +145,10 @@ $lang['POSITION_INDEX_CMAP_DESC'] = 'Será exibido o mapa com o índice especifi
 $lang['DELETE_PLACES'] = '
 Excluir locais selecionados';
 $lang['EDIT_PLACES'] = 'Editar locais selecionados';
-$lang['OSM_ADD_PLACE'] = '
+$lang['SWISSTOPO_ADD_PLACE'] = '
 Adicione um lugar';
-$lang['OSM_NEW_PLACE'] = 'Novo lugar';
-$lang['OSM_PLACES'] = '
+$lang['SWISSTOPO_NEW_PLACE'] = 'Novo lugar';
+$lang['SWISSTOPO_PLACES'] = '
 Lugares';
 $lang['PLACE_SELECTION'] = '
 Seleção de lugar';

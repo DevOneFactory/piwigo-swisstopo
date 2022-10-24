@@ -1,1 +1,1 @@
-Інтеграція Piwigo з OpenStreetMap
+Інтеграція Piwigo з Swisstopo

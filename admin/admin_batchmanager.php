@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   admin_batchmanager.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   handle batch manager
 * Base on   :   RV Maps & Earth plugin
 *
@@ -29,24 +29,24 @@
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 // Hook to add a new filter in the batch mode
-add_event_handler('get_batch_manager_prefilters', 'osm_get_batch_manager_prefilters');
-function osm_get_batch_manager_prefilters($prefilters)
+add_event_handler('get_batch_manager_prefilters', 'swisstopo_get_batch_manager_prefilters');
+function swisstopo_get_batch_manager_prefilters($prefilters)
 {
-	$prefilters[] = array('ID' => 'osm0', 'NAME' => l10n('OSM Geotagged'));
-	$prefilters[] = array('ID' => 'osm1', 'NAME' => l10n('OSM Not geotagged'));
-	$prefilters[] = array('ID' => 'osm2', 'NAME' => l10n('OSM GPX tracks'));
+	$prefilters[] = array('ID' => 'swisstopo0', 'NAME' => l10n('SWISSTOPO Geotagged'));
+	$prefilters[] = array('ID' => 'swisstopo1', 'NAME' => l10n('SWISSTOPO Not geotagged'));
+	$prefilters[] = array('ID' => 'swisstopo2', 'NAME' => l10n('SWISSTOPO GPX tracks'));
 	return $prefilters;
 }
 
 // Hook to perfom the filter in the batch mode
-add_event_handler('perform_batch_manager_prefilters', 'osm_perform_batch_manager_prefilters', 50, 2);
-function osm_perform_batch_manager_prefilters($filter_sets, $prefilter)
+add_event_handler('perform_batch_manager_prefilters', 'swisstopo_perform_batch_manager_prefilters', 50, 2);
+function swisstopo_perform_batch_manager_prefilters($filter_sets, $prefilter)
 {
-	if ($prefilter==="osm0")
+	if ($prefilter==="swisstopo0")
 		$filter = "`latitude` IS NOT NULL and `longitude` IS NOT NULL";
-	else if ($prefilter==="osm1")
+	else if ($prefilter==="swisstopo1")
 		$filter = "`latitude` IS NULL OR `longitude` IS NULL";
-	else if ($prefilter==="osm2")
+	else if ($prefilter==="swisstopo2")
 		$filter = "`path` LIKE '%.gpx%'";
 
 	if ( isset($filter) )
@@ -58,18 +58,18 @@ function osm_perform_batch_manager_prefilters($filter_sets, $prefilter)
 }
 
 // Hook to show action when selected
-add_event_handler('loc_end_element_set_global', 'osm_loc_end_element_set_global');
-function osm_loc_end_element_set_global()
+add_event_handler('loc_end_element_set_global', 'swisstopo_loc_end_element_set_global');
+function swisstopo_loc_end_element_set_global()
 {
 	global $template, $conf, $prefixeTable;
-	define('osm_place_table', $prefixeTable.'osm_places');
+	define('swisstopo_place_table', $prefixeTable.'swisstopo_places');
 	// Save location, eg Place
 	$list_of_places = array();
 	$available_places = array();
 	$place_options = array();
 	$query = '
 	SELECT id, name, latitude, longitude
-	  FROM '.osm_place_table.'
+	  FROM '.swisstopo_place_table.'
 	;';
 	$result = pwg_query($query);
 	// JS for the template
@@ -81,40 +81,40 @@ function osm_loc_end_element_set_global()
 	}
 	$jsplaces = "\nvar arr_places = ". json_encode($list_of_places) .";\n";
 
-	$batch_global_height = isset($conf['osm_conf']['batch']['global_height']) ? $conf['osm_conf']['batch']['global_height'] : '200';
+	$batch_global_height = isset($conf['swisstopo_conf']['batch']['global_height']) ? $conf['swisstopo_conf']['batch']['global_height'] : '200';
 	$template->append('element_set_global_plugins_actions',
-		array('ID' => 'openstreetmap', 'NAME'=>l10n('OSM GeoTag'), 'CONTENT' => '
+		array('ID' => 'swisstopo', 'NAME'=>l10n('SWISSTOPO GeoTag'), 'CONTENT' => '
   <label>'.l10n('Latitude').' (-90=S to 90=N)
-    <input type="text" size="8" id="osmlat" name="osmlat">
+    <input type="text" size="8" id="swisstopolat" name="swisstopolat">
   </label>
   <label>'.l10n('Longitude').' (-180=W to 180=E)
-    <input type="text" size="9" id="osmlon" name="osmlon">
+    <input type="text" size="9" id="swisstopolon" name="swisstopolon">
   </label>
   </label> (Empty values will erase coordinates)
   <label>Saved Places: 
-    <select id="osmplaces" name="osmplaces" >
+    <select id="swisstopoplaces" name="swisstopoplaces" >
       <option value="NULL">--</option>
       '. implode("\n", $place_options) . '
     </select> 
   <style type="text/css"> .map1 { height: '. $batch_global_height .'px !important; width:100% !important; margin: 5px; } </style>
-  <script src="plugins/piwigo-openstreetmap/leaflet/qleaflet.jquery.js"></script>
-  <div class="osm-map1 map1"></div>
+  <script src="plugins/piwigo_swisstopo/leaflet/qleaflet.jquery.js"></script>
+  <div class="swisstopo-map1 map1"></div>
   <script>
     $(document).ready(function() {' . $jsplaces . '
 	 var map;
          $("#permitAction").on("change", function (e) {
             var optionSelected = $("option:selected", this);
-            if ("openstreetmap" == optionSelected.val()) {
-              map = $(".osm-map1").qleaflet();
+            if ("swisstopo" == optionSelected.val()) {
+              map = $(".swisstopo-map1").qleaflet();
 	      map.click(function(a,b,c) {
-	      $("#osmplaces").val("NULL");
+	      $("#swisstopoplaces").val("NULL");
 	      });
             }
          });
-	 $("#osmplaces").change(function(){
-	   var select = $("#osmplaces").val();
-	   var lat_elem = $("#osmlat");
-	   var lon_elem = $("#osmlon");
+	 $("#swisstopoplaces").change(function(){
+	   var select = $("#swisstopoplaces").val();
+	   var lat_elem = $("#swisstopolat");
+	   var lon_elem = $("#swisstopolon");
 	   if (select == "NULL")
 	   {
 	     lat_elem.val(0);
@@ -132,16 +132,16 @@ function osm_loc_end_element_set_global()
 }
 
 // Hook to perform the action on in global mode
-add_event_handler('element_set_global_action', 'osm_element_set_global_action', 50, 2);
-function osm_element_set_global_action($action, $collection)
+add_event_handler('element_set_global_action', 'swisstopo_element_set_global_action', 50, 2);
+function swisstopo_element_set_global_action($action, $collection)
 {
-	if ($action!=="openstreetmap")
+	if ($action!=="swisstopo")
 		return;
 
 	global $page;
 
-	$lat = trim($_POST['osmlat']);
-	$lon = trim($_POST['osmlon']);
+	$lat = trim($_POST['swisstopolat']);
+	$lon = trim($_POST['swisstopolon']);
 	if ( strlen($lat)>0 and strlen($lon)>0 )
 	{
 		if ( is_numeric($lat) and is_numeric($lon)
@@ -165,8 +165,8 @@ function osm_element_set_global_action($action, $collection)
 }
 
 // Hook to perform the action on in single mode
-add_event_handler('loc_begin_element_set_unit', 'osm_loc_begin_element_set_unit');
-function osm_loc_begin_element_set_unit()
+add_event_handler('loc_begin_element_set_unit', 'swisstopo_loc_begin_element_set_unit');
+function swisstopo_loc_begin_element_set_unit()
 {
 	global $page;
 
@@ -185,7 +185,7 @@ function osm_loc_begin_element_set_unit()
 	$result = pwg_query($query);
 	while ($row = pwg_db_fetch_assoc($result))
 	{
-		if (!isset($_POST['osmlat-'.$row['id']]))
+		if (!isset($_POST['swisstopolat-'.$row['id']]))
 		{
 			$form_errors++;
 			continue;
@@ -193,8 +193,8 @@ function osm_loc_begin_element_set_unit()
 		$error = false;
 		$data = array(
 			'id' => $row['id'],
-			'latitude' => trim($_POST['osmlat-'.$row['id']]),
-			'longitude' => trim($_POST['osmlon-'.$row['id']])
+			'latitude' => trim($_POST['swisstopolat-'.$row['id']]),
+			'longitude' => trim($_POST['swisstopolon-'.$row['id']])
 		);
 
 		if ( strlen($data['latitude'])>0 and strlen($data['longitude'])>0 )
@@ -233,41 +233,41 @@ function osm_loc_begin_element_set_unit()
 		$page['errors'][] = 'Invalid latitude or longitude value for files: '.implode(', ', $errors);
 	}
 	if ($form_errors)
-		$page['errors'][] = 'OpenStreetMap: Invalid form submission for '.$form_errors.' photos';
+		$page['errors'][] = 'Swisstopo: Invalid form submission for '.$form_errors.' photos';
 }
 
 // Hoook for batch manager in single mode
-add_event_handler('loc_end_element_set_unit', 'osm_loc_end_element_set_unit');
-function osm_loc_end_element_set_unit()
+add_event_handler('loc_end_element_set_unit', 'swisstopo_loc_end_element_set_unit');
+function swisstopo_loc_end_element_set_unit()
 {
 	global $template, $conf, $page, $is_category, $category_info;
-	$template->set_prefilter('batch_manager_unit', 'osm_prefilter_batch_manager_unit');
+	$template->set_prefilter('batch_manager_unit', 'swisstopo_prefilter_batch_manager_unit');
 }
 
-function osm_prefilter_batch_manager_unit($content)
+function swisstopo_prefilter_batch_manager_unit($content)
 {
 	global $conf;
 
 	$needle = '</table>';
 	$pos = strpos($content, $needle);
-	$batch_unit_height = isset($conf['osm_conf']['batch']['unit_height']) ? $conf['osm_conf']['batch']['unit_height'] : '200';
+	$batch_unit_height = isset($conf['swisstopo_conf']['batch']['unit_height']) ? $conf['swisstopo_conf']['batch']['unit_height'] : '200';
 	if ($pos!==false)
 	{
-		$add = '<tr><td><strong>{\'OSM Geotag\'|@translate}</strong></td>
+		$add = '<tr><td><strong>{\'SWISSTOPO Geotag\'|@translate}</strong></td>
 		  <td>
 		    <label>{\'Latitude\'|@translate}
-		      <input type="text" size="8" name="osmlat-{$element.id}" value="{$element.latitude}">
+		      <input type="text" size="8" name="swisstopolat-{$element.id}" value="{$element.latitude}">
 		    </label>
 		    <label>{\'Longitude\'|@translate}
-		      <input type="text" size="9" name="osmlon-{$element.id}" value="{$element.longitude}">
+		      <input type="text" size="9" name="swisstopolon-{$element.id}" value="{$element.longitude}">
 		    </label>
 
 <style type="text/css"> .map1 { height: '. $batch_unit_height .'px !important; width:100% !important; margin: 5px; } </style>
-<script src="plugins/piwigo-openstreetmap/leaflet/qleaflet.jquery.js"></script>
-<div class="osm-map-{$element.id} map1" data-markerpos="{$element.latitude},{$element.longitude}" data-markertext="{$element.name}" data-formid="{$element.id}"></div>
+<script src="plugins/piwigo_swisstopo/leaflet/qleaflet.jquery.js"></script>
+<div class="swisstopo-map-{$element.id} map1" data-markerpos="{$element.latitude},{$element.longitude}" data-markertext="{$element.name}" data-formid="{$element.id}"></div>
 <script>
   $(document).ready(function() {
-        $(".osm-map-{$element.id}").qleaflet();
+        $(".swisstopo-map-{$element.id}").qleaflet();
   });
 </script>
 

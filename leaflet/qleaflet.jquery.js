@@ -11,13 +11,13 @@
     var pluginName = "qleaflet",
         defaults = {
           providers: [{
-            providerName: 'OpenStreetMap',
+            providerName: 'Swisstopo',
             variantName: false,
             noWrap:  false
           }],
-          leafletJsUri    : 'plugins/piwigo-openstreetmap/leaflet/leaflet.js',
-          leafletCssUri   : 'plugins/piwigo-openstreetmap/leaflet/leaflet.css',
-          leafletImageUri : 'plugins/piwigo-openstreetmap/leaflet/images/',
+          leafletJsUri    : 'plugins/piwigo_swisstopo/leaflet/leaflet.js',
+          leafletCssUri   : 'plugins/piwigo_swisstopo/leaflet/leaflet.css',
+          leafletImageUri : 'plugins/piwigo_swisstopo/leaflet/images/',
           retina          : true,
           markers         : [],
           mapOptions: {
@@ -28,8 +28,8 @@
               contextmenu: false
             },
           formid: false,
-          leafletSearchJsUri    : 'plugins/piwigo-openstreetmap/leaflet/leaflet-search.src.js',
-          leafletSearchCssUri   : 'plugins/piwigo-openstreetmap/leaflet/leaflet-search.min.css'
+          leafletSearchJsUri    : 'plugins/piwigo_swisstopo/leaflet/leaflet-search.src.js',
+          leafletSearchCssUri   : 'plugins/piwigo_swisstopo/leaflet/leaflet-search.min.css'
         };
 
     // The actual plugin constructor
@@ -86,12 +86,12 @@
 			.openOn(this.map);
 
 		if(this.options.formid != false) { // Batch manager single mode
-			$('[name=osmlat-'+this.options.formid+']').val(Math.ceil(e.latlng.lat * 100000) / 100000);
-			$('[name=osmlon-'+this.options.formid+']').val(Math.ceil(e.latlng.lng * 100000) / 100000);
+			$('[name=swisstopolat-'+this.options.formid+']').val(Math.ceil(e.latlng.lat * 100000) / 100000);
+			$('[name=swisstopolon-'+this.options.formid+']').val(Math.ceil(e.latlng.lng * 100000) / 100000);
 		} else { // Batch manager global mode
 			var form=document.forms[1];
-			form.osmlat.value = Math.ceil(e.latlng.lat * 100000) / 100000;
-			form.osmlon.value = Math.ceil(e.latlng.lng * 100000) / 100000;
+			form.swisstopolat.value = Math.ceil(e.latlng.lat * 100000) / 100000;
+			form.swisstopolon.value = Math.ceil(e.latlng.lng * 100000) / 100000;
 		}
 	}
 
@@ -101,7 +101,7 @@
         /* BEGIN leaflet-search */
 	/*
          var jsonpurl = 'https://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
-                                   '&format=json&osm_type=N&limit=100&addressdetails=0',
+                                   '&format=json&swisstopo_type=N&limit=100&addressdetails=0',
                 jsonpName = 'json_callback';
         //third party jsonp service
 
@@ -254,11 +254,11 @@
 
       providers :  {
         /* More Providers: https://github.com/leaflet-extras/leaflet-providers/blob/master/leaflet-providers.js */
-        OpenStreetMap: {
-          url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        Swisstopo: {
+          url: 'https://{s}.tile.swisstopo.org/{z}/{x}/{y}.png',
           options: {
             attribution:
-              '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+              '&copy; <a href="http://swisstopo.org">Swisstopo</a> contributors, ' +
               '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
           },
           variants: {
@@ -267,7 +267,7 @@
               url: 'https://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png'
             },
             DE: {
-              url: 'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png'
+              url: 'https://{s}.tile.swisstopo.de/tiles/swisstopode/{z}/{x}/{y}.png'
             }
           }
         },
@@ -276,11 +276,11 @@
             options: {
               attribution:
                 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; ' +
-                'Map data {attribution.OpenStreetMap}',
+                'Map data {attribution.Swisstopo}',
               subdomains: '1234'
             },
             variants: {
-              OSM: {},
+              SWISSTOPO: {},
               Aerial: {
                 url: 'https://oatile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg',
                 options: {

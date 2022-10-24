@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   admin.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   Install / Uninstall method
 *
 * Created   :   28.05.2013
@@ -30,7 +30,7 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 check_status(ACCESS_ADMINISTRATOR);
 
 // Setup plugin Language
-load_language('plugin.lang', OSM_PATH);
+load_language('plugin.lang', SWISSTOPO_PATH);
 
 // Fetch the template.
 global $template, $conf, $lang;
@@ -45,12 +45,12 @@ if (!isset($_GET['tab']))
 else
   $page['tab'] = $_GET['tab'];
 
-$my_base_url = get_root_url().'admin.php?page=plugin-piwigo_openstreetmap';
+$my_base_url = get_root_url().'admin.php?page=plugin-piwigo_swisstopo';
 
 $tabsheet = new tabsheet();
 $tabsheet->add( 'config', '<span class="icon-cog"></span>' . l10n('Configuration'), $my_base_url.'-config');
 $tabsheet->add( 'tag', '<span class="icon-tags"></span>' . l10n('Tags'), $my_base_url.'-tag');
-$tabsheet->add( 'place', '<span class="osm-location"></span>' . l10n('OSM_PLACES'), $my_base_url.'-place');
+$tabsheet->add( 'place', '<span class="swisstopo-location"></span>' . l10n('SWISSTOPO_PLACES'), $my_base_url.'-place');
 $tabsheet->select($page['tab']);
 
 $tabsheet->assign();

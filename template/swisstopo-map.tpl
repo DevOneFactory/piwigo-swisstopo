@@ -9,12 +9,12 @@
 <body>
 
 {html_head}
-<link href="{$OSM_PATH}leaflet/leaflet.css" rel="stylesheet">
-<script src="{$OSM_PATH}leaflet/leaflet.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet-omnivore.min.js"></script>
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/MarkerCluster.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/MarkerCluster.Default.css" />
-<script src="{$OSM_PATH}leaflet/leaflet.markercluster.js"></script>
+<link href="{$SWISSTOPO_PATH}leaflet/leaflet.css" rel="stylesheet">
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet-omnivore.min.js"></script>
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/MarkerCluster.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/MarkerCluster.Default.css" />
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.markercluster.js"></script>
 {/html_head}
 
 {html_style}
@@ -32,7 +32,7 @@ html, body {
 
 <span> <a href="{$HOME}">{$HOME_NAME}</a> <a href="{$HOME_PREV}">{$HOME_PREV_NAME}</a> - <b id="nb_showall">{$TOTAL}</b> - <a id="showall" target="_blank" href="" style="display: none">{'ITEMS_SCREEN'|@translate}</a><span id='shownothing'>{'MOUSE_OVER'|@translate}</span></span>
 <div id="map"></div>
-<script type="text/javascript">{$OSMJS}</script>
+<script type="text/javascript">{$SWISSTOPOJS}</script>
 
 <script type="text/javascript">
 {literal}
@@ -51,7 +51,7 @@ html, body {
 		var min = bounds.getSouthWest().wrap();
 		var max = bounds.getNorthEast().wrap();
 
-		var myurl = "{/literal}{$HOME}{literal}osmmap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
+		var myurl = "{/literal}{$HOME}{literal}swisstopomap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
 		//console.log(myurl);
 		document.getElementById("showall").setAttribute('href',myurl);
 		document.getElementById("shownothing").style.display = 'none';

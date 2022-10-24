@@ -5,17 +5,17 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta name="robots" content="noindex,nofollow" />
 <title>{$GALLERY_TITLE}</title>
-<link rel="stylesheet" href="{$OSM_PATH}fontello/css/osm.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet-search.min.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/MarkerCluster.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/leaflet.contextmenu.css" />
-<script src="{$OSM_PATH}leaflet/leaflet.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet-search.min.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet.markercluster.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet.contextmenu.js"></script>
-<script src="{$OSM_PATH}leaflet/leaflet-omnivore.min.js"></script>
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}fontello/css/swisstopo.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet-search.min.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/MarkerCluster.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/leaflet.contextmenu.css" />
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet-search.min.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.markercluster.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet.contextmenu.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/leaflet-omnivore.min.js"></script>
 {html_style}
 {literal}
 html, body {
@@ -233,18 +233,18 @@ a:hover.tooltips span {
 
 	<div id="ribbon-map-toggle" class="show">
 		<div id="ribbon-map-nav">
-			<span class="osm-home"></span><a href="{$HOME}" class="tooltips">{$HOME_NAME}<span>{'PIWIGO_GALLERY'|@translate}</span></a><br/>
-			<span class="osm-left-big"></span><a href="{$HOME_PREV}" class="tooltips">{$HOME_PREV_NAME}<span>{'BACK_ON_PAGE'|@translate}</span></a>
+			<span class="swisstopo-home"></span><a href="{$HOME}" class="tooltips">{$HOME_NAME}<span>{'PIWIGO_GALLERY'|@translate}</span></a><br/>
+			<span class="swisstopo-left-big"></span><a href="{$HOME_PREV}" class="tooltips">{$HOME_PREV_NAME}<span>{'BACK_ON_PAGE'|@translate}</span></a>
 		</div>
 
 		<div id="ribbon-map-results">
 			<b id="nb_showall" style="color: rgb(204, 0, 0);">{$TOTAL}</b><br/>
-			<span class="osm-link-ext"></span><a id="map-showall" target="_blank" href="" class="tooltips">{'SHOW_ALL'|@translate}<span>{'SHOW_ALL_PIWIGO'|@translate}</span></a>
+			<span class="swisstopo-link-ext"></span><a id="map-showall" target="_blank" href="" class="tooltips">{'SHOW_ALL'|@translate}<span>{'SHOW_ALL_PIWIGO'|@translate}</span></a>
 		</div>
 
 		<div id="ribbon-map-location">
-			<span class="osm-link"></span><a href="#" onclick="linkToThisMap();" id="opener" class="tooltips">{'LINK_MAP'|@translate}<span>{'SHARE'|@translate}</span></a><br/>
-			<span class="osm-direction"></span><a href="#" onclick="findMyLocation();" class="tooltips">{'FIND_POSITION'|@translate}<span>{'SEARCH_MY_POSITION'|@translate}</span></a>
+			<span class="swisstopo-link"></span><a href="#" onclick="linkToThisMap();" id="opener" class="tooltips">{'LINK_MAP'|@translate}<span>{'SHARE'|@translate}</span></a><br/>
+			<span class="swisstopo-direction"></span><a href="#" onclick="findMyLocation();" class="tooltips">{'FIND_POSITION'|@translate}<span>{'SEARCH_MY_POSITION'|@translate}</span></a>
 		</div>
 
 		<div id="ribbon-map-wrapper" style="visibility:hidden; max-width: 0px;">
@@ -289,7 +289,7 @@ function toggle(arrow)
 }
 </script>
 
-<script type="text/javascript">{$OSMJS}</script>
+<script type="text/javascript">{$SWISSTOPOJS}</script>
 
 <script type="text/javascript">
 {literal}
@@ -303,7 +303,7 @@ function toggle(arrow)
 
 	/* BEGIN leaflet-search https://github.com/stefanocudini/leaflet-search */
 	var jsonpurl = 'https://open.mapquestapi.com/nominatim/v1/search.php?q={s}'+
-				   '&format=json&osm_type=N&limit=100&addressdetails=0',
+				   '&format=json&swisstopo_type=N&limit=100&addressdetails=0',
 		jsonpName = 'json_callback';
 	//third party jsonp service
 
@@ -379,7 +379,7 @@ function toggle(arrow)
 
 		/* Update ShowAll link */
 		var root_url = '{/literal}{$MYROOT_URL}{literal}';
-		var myurl = root_url+"osmmap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
+		var myurl = root_url+"swisstopomap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
 		//console.log("ShowAll:"+myurl);
 		//window.location.assign(myurl);
 		window.open(myurl,'_blank');
@@ -393,7 +393,7 @@ function toggle(arrow)
 		var centerlng = center.lng;
 
 		var root_url = '{/literal}{$MYROOT_URL}{literal}';
-		var myurl = root_url+"osmmap.php?zoom="+zoom+"&center_lat="+centerlat+"&center_lng="+centerlng;
+		var myurl = root_url+"swisstopomap.php?zoom="+zoom+"&center_lat="+centerlat+"&center_lng="+centerlng;
 		//console.log(myurl);
 		document.getElementById('textfield').value = myurl;
 		$('#dialog').dialog('open');
@@ -413,21 +413,21 @@ function toggle(arrow)
 		map.zoomOut();
 	}
 
-	map.contextmenu.addItem({text: '{/literal}{$HOME_NAME}{literal}', iconCls: 'osm-home', callback: goHome});
-	map.contextmenu.addItem({text: '{/literal}{$HOME_PREV_NAME}{literal}', iconCls: 'osm-left-big', callback: goBack});
+	map.contextmenu.addItem({text: '{/literal}{$HOME_NAME}{literal}', iconCls: 'swisstopo-home', callback: goHome});
+	map.contextmenu.addItem({text: '{/literal}{$HOME_PREV_NAME}{literal}', iconCls: 'swisstopo-left-big', callback: goBack});
 	map.contextmenu.addItem('-');
-	map.contextmenu.addItem({text: '{/literal}{'SHOW_COORD'|@translate}{literal}', iconCls: 'osm-pin', callback: showCoordinates});
-	map.contextmenu.addItem({text: '{/literal}{'CENTER_MAP'|@translate}{literal}', iconCls: 'osm-location', callback: centerMap});
+	map.contextmenu.addItem({text: '{/literal}{'SHOW_COORD'|@translate}{literal}', iconCls: 'swisstopo-pin', callback: showCoordinates});
+	map.contextmenu.addItem({text: '{/literal}{'CENTER_MAP'|@translate}{literal}', iconCls: 'swisstopo-location', callback: centerMap});
 	map.contextmenu.addItem('-');
-	map.contextmenu.addItem({text: '{/literal}{'SHOW_ALL_ITEMS'|@translate}{literal}', iconCls: 'osm-link-ext', callback: goShowAll});
-	map.contextmenu.addItem({text: '{/literal}{'LINK_MAP'|@translate}{literal}', iconCls: 'osm-link', callback: linkToThisMap});
-	map.contextmenu.addItem({text: '{/literal}{'FIND_POSITION'|@translate}{literal}', iconCls: 'osm-direction', callback: findMyLocation});
+	map.contextmenu.addItem({text: '{/literal}{'SHOW_ALL_ITEMS'|@translate}{literal}', iconCls: 'swisstopo-link-ext', callback: goShowAll});
+	map.contextmenu.addItem({text: '{/literal}{'LINK_MAP'|@translate}{literal}', iconCls: 'swisstopo-link', callback: linkToThisMap});
+	map.contextmenu.addItem({text: '{/literal}{'FIND_POSITION'|@translate}{literal}', iconCls: 'swisstopo-direction', callback: findMyLocation});
 	map.contextmenu.addItem({separator: true});
-	map.contextmenu.addItem({text: '{/literal}{'ZOOM_IN'|@translate}{literal}', iconCls: 'osm-zoom-in', callback: zoomIn});
-	map.contextmenu.addItem({text: '{/literal}{'ZOOM_OUT'|@translate}{literal}', iconCls: 'osm-zoom-out', callback: zoomOut});
+	map.contextmenu.addItem({text: '{/literal}{'ZOOM_IN'|@translate}{literal}', iconCls: 'swisstopo-zoom-in', callback: zoomIn});
+	map.contextmenu.addItem({text: '{/literal}{'ZOOM_OUT'|@translate}{literal}', iconCls: 'swisstopo-zoom-out', callback: zoomOut});
 	/* END leaflet-locatecontrol */
 
-	/* BEGIN piwigo-openstreetmap plugin */
+	/* BEGIN piwigo_swisstopo plugin */
 	map.on('moveend', onMapMove);
 
 	function onMapMove(e){
@@ -446,7 +446,7 @@ function toggle(arrow)
 
 		/* Update ShowAll link */
 		var root_url = '{/literal}{$MYROOT_URL}{literal}';
-		var myurl = root_url+"osmmap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
+		var myurl = root_url+"swisstopomap.php?min_lat="+min.lat+"&min_lng="+min.lng+"&max_lat="+max.lat+"&max_lng="+max.lng;
 		//console.log("ShowAll:"+myurl);
 		document.getElementById("map-showall").setAttribute('href',myurl);
 
@@ -551,10 +551,10 @@ function toggle(arrow)
 {/literal}
 </script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="{$OSM_PATH}leaflet/jcarousel.responsive.css" />
+<link rel="stylesheet" href="{$SWISSTOPO_PATH}leaflet/jcarousel.responsive.css" />
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<script src="{$OSM_PATH}leaflet/jquery.jcarousel.min.js"></script>
+<script src="{$SWISSTOPO_PATH}leaflet/jquery.jcarousel.min.js"></script>
 <script>
 {literal}
 

@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   admin_boot.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   Generate the admin panel
 *
 * Created   :   11.06.2013
@@ -30,14 +30,14 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 include_once(dirname(__FILE__).'/admin_batchmanager.php');
 
 // Hook to add an photo edit tab in photo edit
-add_event_handler('tabsheet_before_select','osm_photo_add_tab', 50, 2);
-function osm_photo_add_tab($sheets, $id)
+add_event_handler('tabsheet_before_select','swisstopo_photo_add_tab', 50, 2);
+function swisstopo_photo_add_tab($sheets, $id)
 {
 	if ($id == 'photo')
 	{
-		$sheets['openstreetmap'] = array(
-			'caption' => '<span class="osm-globe"></span>OpenStreetMap',
-			'url' => get_root_url().'admin.php?page=plugin&amp;section=piwigo-openstreetmap/admin/admin_photo.php&amp;image_id='.$_GET['image_id'],
+		$sheets['swisstopo'] = array(
+			'caption' => '<span class="swisstopo-globe"></span>Swisstopo',
+			'url' => get_root_url().'admin.php?page=plugin&amp;section=piwigo_swisstopo/admin/admin_photo.php&amp;image_id='.$_GET['image_id'],
 			);
 	}
 
@@ -45,7 +45,7 @@ function osm_photo_add_tab($sheets, $id)
 }
 
 /* Pretty Print recursive */
-function osm_pprint_r(array $array, $glue = ', <br/>', $size = 4)
+function swisstopo_pprint_r(array $array, $glue = ', <br/>', $size = 4)
 {
         // Split tag array in chuck of $size for nicer display
         $chunk_arr = array_chunk( $array, $size, true);

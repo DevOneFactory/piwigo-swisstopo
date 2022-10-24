@@ -11,11 +11,11 @@ L.Control.ControlCenter = L.Control.extend({
 		//var container = map.zoomControl._container;
 		var container = L.DomUtil.create('div', 'leaflet-bar');
 
-		this._createButton({ title: 'Link to this map', href: 'linkToThisMap();'}, "osm-link", container, this.setcontrolcenter, map);
-		this._createButton({ title: 'Find my position', href: 'findMyLocation();'}, "osm-direction", container, this.setcontrolcenter, map);
-		this._createButton({ title: 'Show all items', href: 'goShowAll();'}, "osm-link-ext", container, this.setcontrolcenter, map);
-		//this._createButton({ title: 'Show my items', href: 'goShowMine();'}, "osm-user", container, this.setcontrolcenter, map);
-		//this._createButton({ title: 'Show item information', href: 'goShowInfo();'}, "osm-info-circled", container, this.setcontrolcenter, map);
+		this._createButton({ title: 'Link to this map', href: 'linkToThisMap();'}, "swisstopo-link", container, this.setcontrolcenter, map);
+		this._createButton({ title: 'Find my position', href: 'findMyLocation();'}, "swisstopo-direction", container, this.setcontrolcenter, map);
+		this._createButton({ title: 'Show all items', href: 'goShowAll();'}, "swisstopo-link-ext", container, this.setcontrolcenter, map);
+		//this._createButton({ title: 'Show my items', href: 'goShowMine();'}, "swisstopo-user", container, this.setcontrolcenter, map);
+		//this._createButton({ title: 'Show item information', href: 'goShowInfo();'}, "swisstopo-info-circled", container, this.setcontrolcenter, map);
 
 		return container;
 	},

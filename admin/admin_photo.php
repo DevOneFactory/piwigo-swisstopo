@@ -1,7 +1,7 @@
 <?php
 /***********************************************
 * File      :   admin_photo.php
-* Project   :   piwigo-openstreetmap
+* Project   :   piwigo_swisstopo
 * Descr     :   Location edit in photo panel
 *
 * Created   :   2.11.2013
@@ -38,11 +38,11 @@ if (!isset($_GET['image_id']) or !isset($_GET['section']))
 check_input_parameter('image_id', $_GET, false, PATTERN_ID);
 
 $admin_photo_base_url = get_root_url().'admin.php?page=photo-'.$_GET['image_id'];
-$self_url = get_root_url().'admin.php?page=plugin&amp;section=piwigo-openstreetmap/admin/admin_photo.php&amp;image_id='.$_GET['image_id'];
-$delete_url = get_root_url().'admin.php?page=plugin&amp;section=piwigo-openstreetmap/admin/admin_photo.php&amp;delete_coords=1&amp;image_id='.$_GET['image_id'].'&amp;pwg_token='.get_pwg_token();
+$self_url = get_root_url().'admin.php?page=plugin&amp;section=piwigo_swisstopo/admin/admin_photo.php&amp;image_id='.$_GET['image_id'];
+$delete_url = get_root_url().'admin.php?page=plugin&amp;section=piwigo_swisstopo/admin/admin_photo.php&amp;delete_coords=1&amp;image_id='.$_GET['image_id'].'&amp;pwg_token='.get_pwg_token();
 
 load_language('plugin.lang', PHPWG_PLUGINS_PATH.basename(dirname(__FILE__)).'/');
-load_language('plugin.lang', OSM_PATH);
+load_language('plugin.lang', SWISSTOPO_PATH);
 
 global $template, $page, $conf;
 
@@ -50,8 +50,8 @@ global $template, $page, $conf;
 if (isset($_GET['delete_coords']) and $_GET['delete_coords'] == 1)
 {
         check_pwg_token();
-	$_POST['osmlat'] = "";
-	$_POST['osmlon'] = "";
+	$_POST['swisstopolat'] = "";
+	$_POST['swisstopolon'] = "";
 	$_POST['submit'] = 1;
 }
 
@@ -60,8 +60,8 @@ if (isset($_POST['submit']))
 {
 	check_pwg_token();
 
-	$lat = trim($_POST['osmlat']);
-	$lon = trim($_POST['osmlon']);
+	$lat = trim($_POST['swisstopolat']);
+	$lon = trim($_POST['swisstopolon']);
 	if ( strlen($lat)>0 and strlen($lon)>0 )
 	{
 		if ( is_numeric($lat) and is_numeric($lon)
@@ -93,7 +93,7 @@ if (isset($_POST['submit']))
 include_once(PHPWG_ROOT_PATH.'admin/include/tabsheet.class.php');
 $tabsheet = new tabsheet();
 $tabsheet->set_id('photo');
-$tabsheet->select('openstreetmap');
+$tabsheet->select('swisstopo');
 $tabsheet->assign();
 
 $template->set_filenames(
@@ -124,14 +124,14 @@ $lat = isset($picture['latitude']) ? $picture['latitude'] : 0;
 $lon = isset($picture['longitude']) ? $picture['longitude'] : 0;
 
 // Load parameter, fallback to default if unset
-$zoom = isset($conf['osm_conf']['right_panel']['zoom']) ? $conf['osm_conf']['right_panel']['zoom'] : '18';
-$baselayer = isset($conf['osm_conf']['map']['baselayer']) ? $conf['osm_conf']['map']['baselayer'] : 'mapnik';
-$custombaselayer = isset($conf['osm_conf']['map']['custombaselayer']) ? $conf['osm_conf']['map']['custombaselayer'] : '';
-$custombaselayerurl = isset($conf['osm_conf']['map']['custombaselayerurl']) ? $conf['osm_conf']['map']['custombaselayerurl'] : '';
-$noworldwarp = isset($conf['osm_conf']['map']['noworldwarp']) ? $conf['osm_conf']['map']['noworldwarp'] : 'false';
-$attrleaflet = isset($conf['osm_conf']['map']['attrleaflet']) ? $conf['osm_conf']['map']['attrleaflet'] : 'false';
-$attrimagery = isset($conf['osm_conf']['map']['attrimagery']) ? $conf['osm_conf']['map']['attrimagery'] : 'false';
-$attrmodule = isset($conf['osm_conf']['map']['attrplugin']) ? $conf['osm_conf']['map']['attrplugin'] : 'false';
+$zoom = isset($conf['swisstopo_conf']['right_panel']['zoom']) ? $conf['swisstopo_conf']['right_panel']['zoom'] : '18';
+$baselayer = isset($conf['swisstopo_conf']['map']['baselayer']) ? $conf['swisstopo_conf']['map']['baselayer'] : 'swisstopo';
+$custombaselayer = isset($conf['swisstopo_conf']['map']['custombaselayer']) ? $conf['swisstopo_conf']['map']['custombaselayer'] : '';
+$custombaselayerurl = isset($conf['swisstopo_conf']['map']['custombaselayerurl']) ? $conf['swisstopo_conf']['map']['custombaselayerurl'] : '';
+$noworldwarp = isset($conf['swisstopo_conf']['map']['noworldwarp']) ? $conf['swisstopo_conf']['map']['noworldwarp'] : 'false';
+$attrleaflet = isset($conf['swisstopo_conf']['map']['attrleaflet']) ? $conf['swisstopo_conf']['map']['attrleaflet'] : 'false';
+$attrimagery = isset($conf['swisstopo_conf']['map']['attrimagery']) ? $conf['swisstopo_conf']['map']['attrimagery'] : 'false';
+$attrmodule = isset($conf['swisstopo_conf']['map']['attrplugin']) ? $conf['swisstopo_conf']['map']['attrplugin'] : 'false';
 
 if ($lat == 0 and $lon == 0) { $zoom = 2; }
 
@@ -148,18 +148,18 @@ $local_conf['editor'] = true;
 $pathurl = get_absolute_root_url() ."i.php?".$picture['pathurl'];
 $js_data = array(array($lat, $lon, null, $pathurl, null, null, null, null));
 
-$js = osm_get_js($conf, $local_conf, $js_data);
+$js = swisstopo_get_js($conf, $local_conf, $js_data);
 
 // Fetch the template.
 global $prefixeTable;
 // Easy access
-define('osm_place_table', $prefixeTable.'osm_places');
+define('swisstopo_place_table', $prefixeTable.'swisstopo_places');
 // Save location, eg Place
 $list_of_places = array();
 $available_places = array();
   $query = '
 SELECT id, name, latitude, longitude
-  FROM '.osm_place_table.'
+  FROM '.swisstopo_place_table.'
 ;';
   $result = pwg_query($query);
 // JS for the template
@@ -177,8 +177,8 @@ $template->assign(array(
 	'DELETE_URL'		=> $delete_url,
 	'TN_SRC'		=> DerivativeImage::thumb_url($picture).'?'.time(),
 	'TITLE'			=> render_element_name($picture),
-	'OSM_PATH'		=> embellish_url(get_absolute_root_url().OSM_PATH),
-	'OSM_JS'		=> $js,
+	'SWISSTOPO_PATH'		=> embellish_url(get_absolute_root_url().SWISSTOPO_PATH),
+	'SWISSTOPO_JS'		=> $js,
 	'LAT'			=> $lat,
 	'LON'			=> $lon,
 	'AVAILABLE_PLACES'	=> $available_places,
